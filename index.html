@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>♠ Card Study Timer</title>
+<title>Counting Cards</title>
+<!-- Spade favicon embedded as SVG — no external file needed! -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♠</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
@@ -227,12 +228,12 @@
 </head>
 <body>
 
-<h1>♠ Study by the Deck</h1>
-<p class="subtitle">Draw a card · study for its time · conquer the deck</p>
+<h1>Counting Cards</h1>
+<p class="subtitle">Draw a card · Study for the Time · Get A's on Exams</p>
 
 <!-- TAB NAV -->
 <div class="tabs-nav">
-  <button class="tab-btn active" data-tab="deck">🃏 Card Study</button>
+  <button class="tab-btn active" data-tab="deck">🃏 Deck Study</button>
   <button class="tab-btn" data-tab="pomo">🍅 Pomodoro</button>
 </div>
 
@@ -346,7 +347,7 @@
         </div>
         <div class="pomo-setting">
           <label>Long Break</label>
-          <input type="number" id="pomoLongMin" value="15" min="1" max="120">
+          <input type="number" id="pomoLongMin" value="10" min="1" max="120">
           <div class="setting-unit">minutes</div>
         </div>
       </div>
@@ -620,22 +621,71 @@ function resetTimer() {
   }
 }
 
+/* ── Alarm ── */
+var alarmCtx = null, alarmLoopId = null, alarmAutoStopId = null;
+var ALARM_NOTES = [523,659,784,1047,784,659,523,523,659,784,1047,784,659,523,523,659,784,1047,784,659,523,523,659,784,1047,784,659,523,523,659,784,1047,784,659,523,523,659,784,1047,784,659,523,523,659,784,1047,784,659,523];
+var ALARM_LOOP_MS = ALARM_NOTES.length * 220; // ms per loop
+
 function playAlarm() {
-  try {
-    var ctx = new (window.AudioContext || window.webkitAudioContext)();
-    var notes = [523,659,784,1047,784,659,523,659,784,1047]; var time = ctx.currentTime;
-    notes.forEach(function(freq) {
-      var o = ctx.createOscillator(), g = ctx.createGain(); o.connect(g); g.connect(ctx.destination);
-      o.type = 'sine'; o.frequency.setValueAtTime(freq, time);
-      g.gain.setValueAtTime(0, time); g.gain.linearRampToValueAtTime(0.4, time + 0.05); g.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
-      o.start(time); o.stop(time + 0.3); time += 0.22;
-    });
-    for (var r = 0; r < 3; r++) {
-      var o2 = ctx.createOscillator(), g2 = ctx.createGain(); o2.connect(g2); g2.connect(ctx.destination);
-      o2.type = 'square'; o2.frequency.value = 440 + r * 80; g2.gain.setValueAtTime(0.15, time); g2.gain.exponentialRampToValueAtTime(0.001, time + 0.5);
-      o2.start(time); o2.stop(time + 0.5); time += 0.55;
-    }
-  } catch(e) {}
+  stopAlarm();
+  showAlarmPopup();
+  function loop() {
+    try {
+      alarmCtx = new (window.AudioContext || window.webkitAudioContext)();
+      var time = alarmCtx.currentTime;
+      ALARM_NOTES.forEach(function(freq) {
+        var o = alarmCtx.createOscillator(), g = alarmCtx.createGain();
+        o.connect(g); g.connect(alarmCtx.destination);
+        o.type = 'sine'; o.frequency.setValueAtTime(freq, time);
+        g.gain.setValueAtTime(0, time);
+        g.gain.linearRampToValueAtTime(0.4, time + 0.05);
+        g.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+        o.start(time); o.stop(time + 0.3); time += 0.22;
+      });
+    } catch(e) {}
+    alarmLoopId = setTimeout(loop, ALARM_LOOP_MS);
+  }
+  loop();
+  alarmAutoStopId = setTimeout(stopAlarm, 30000);
+}
+
+function stopAlarm() {
+  clearTimeout(alarmLoopId); alarmLoopId = null;
+  clearTimeout(alarmAutoStopId); alarmAutoStopId = null;
+  if (alarmCtx) { try { alarmCtx.close(); } catch(e) {} alarmCtx = null; }
+  hideAlarmPopup();
+}
+
+function showAlarmPopup() {
+  if (document.getElementById('alarmPopup')) return;
+  var popup = document.createElement('div');
+  popup.id = 'alarmPopup';
+  popup.style.cssText = [
+    'position:fixed','bottom:28px','left:50%','transform:translateX(-50%)',
+    'background:#2a2420','color:#fff','padding:14px 20px 14px 24px',
+    'border-radius:50px','display:flex','align-items:center','gap:14px',
+    'box-shadow:0 8px 32px rgba(0,0,0,0.35)','z-index:9999',
+    'font-family:Lato,sans-serif','font-size:0.9rem','font-weight:700',
+    'animation:slideUpPopup .3s ease'
+  ].join(';');
+  var msg = document.createElement('span'); msg.textContent = '⏰ Time\'s up!';
+  var btn = document.createElement('button');
+  btn.textContent = 'Stop Alarm';
+  btn.style.cssText = 'background:var(--accent);color:#fff;border:none;border-radius:50px;padding:7px 18px;font-family:Lato,sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;';
+  btn.addEventListener('click', stopAlarm);
+  popup.appendChild(msg); popup.appendChild(btn);
+  // add keyframe if not already present
+  if (!document.getElementById('alarmPopupStyle')) {
+    var s = document.createElement('style'); s.id = 'alarmPopupStyle';
+    s.textContent = '@keyframes slideUpPopup{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
+    document.head.appendChild(s);
+  }
+  document.body.appendChild(popup);
+}
+
+function hideAlarmPopup() {
+  var p = document.getElementById('alarmPopup');
+  if (p) p.remove();
 }
 
 /* ═══════ POMODORO ═══════ */
@@ -643,6 +693,23 @@ var POMO_CIRCUMFERENCE = 2 * Math.PI * 68;
 var pomoSettings = { work: 25, short: 5, long: 15, longAfter: 4 };
 var pomoMode = 'work', pomoTimeLeft = 0, pomoTotalTime = 0, pomoRunning = false, pomoInterval = null, pomoSessionCount = 0;
 var pomoStats = { pomos: 0, focusMin: 0, breakMin: 0 };
+const POMO_STATS_KEY = 'studyDeck_pomoStats';
+function savePomoStats() {
+  try { localStorage.setItem(POMO_STATS_KEY, JSON.stringify({ stats: pomoStats, sessionCount: pomoSessionCount, date: new Date().toDateString() })); } catch(e) {}
+}
+function loadPomoStats() {
+  try {
+    var saved = JSON.parse(localStorage.getItem(POMO_STATS_KEY));
+    if (saved && saved.date === new Date().toDateString()) {
+      pomoStats = saved.stats;
+      pomoSessionCount = saved.sessionCount || 0;
+    } else {
+      pomoStats = { pomos: 0, focusMin: 0, breakMin: 0 };
+      pomoSessionCount = 0;
+      savePomoStats();
+    }
+  } catch(e) {}
+}
 var POMO_MODE_META = {
   work:  { label: 'Focus Time',  sub: 'Stay focused!',          color: 'var(--pomo-work)',  cls: 'work'  },
   short: { label: 'Short Break', sub: 'Take a breather ☕',      color: 'var(--pomo-short)', cls: 'short' },
@@ -677,6 +744,7 @@ function onPomoComplete() {
   if (pomoMode === 'work') {
     pomoStats.pomos++; pomoStats.focusMin += pomoSettings.work;
     pomoSessionCount++;
+    // longAfter=4 means: after sessions 4, 8, 12... take a long break
     var nxt = (pomoSessionCount % pomoSettings.longAfter === 0) ? 'long' : 'short';
     document.getElementById('pomoSubLabel').textContent = nxt === 'long' ? '🎉 Great work! Time for a long break!' : '🎉 Session done! Short break time.';
     setTimeout(function() { pomoSetMode(nxt, false); }, 1500);
@@ -700,6 +768,7 @@ function updatePomoStats() {
   document.getElementById('statPomos').textContent = pomoStats.pomos;
   document.getElementById('statFocusMin').textContent = pomoStats.focusMin;
   document.getElementById('statBreakMin').textContent = pomoStats.breakMin;
+  savePomoStats();
 }
 
 document.getElementById('pomoStartStopBtn').addEventListener('click', function() { if (pomoRunning) pausePomoTimer(); else startPomoTimer(); });
@@ -707,6 +776,7 @@ document.getElementById('pomoResetBtn').addEventListener('click', function() { s
 document.getElementById('pomoSkipBtn').addEventListener('click', function() {
   stopPomoTimer();
   if (pomoMode === 'work') {
+    // Increment count as if the session completed, then decide next break
     var nextCount = pomoSessionCount + 1;
     var nxt = (nextCount % pomoSettings.longAfter === 0) ? 'long' : 'short';
     pomoSessionCount = nextCount;
@@ -715,6 +785,7 @@ document.getElementById('pomoSkipBtn').addEventListener('click', function() {
     updatePomoStats();
     pomoSetMode(nxt, false);
   } else {
+    // Skipping a break — just go back to work
     if (pomoMode !== 'work') {
       pomoStats.breakMin += Math.round((pomoTotalTime - pomoTimeLeft) / 60);
       updatePomoStats();
@@ -771,7 +842,7 @@ modalBackdrop.addEventListener('click', function(e) { if (e.target===modalBackdr
     var target = users.find(function(u) { return u.id === last; }) ? last : users[0].id;
     switchUser(target);
   }
-  pomoSetMode('work', false); updatePomoStats();
+  pomoSetMode('work', false); loadPomoStats(); updatePomoStats();
 })();
 </script>
 </body>
