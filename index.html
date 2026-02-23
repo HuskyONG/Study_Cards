@@ -3,590 +3,203 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Card Study Timer</title>
+<title>Study by the Deck</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --bg: #f5f0eb;
-    --surface: #fefcf9;
-    --accent: #c17f5a;
-    --accent2: #7a9e87;
-    --text: #3a2e28;
-    --muted: #9a8a7e;
-    --card-back: #e8ddd5;
-    --shadow: rgba(100, 70, 50, 0.12);
-    --red: #c0443a;
-    --black: #2a2420;
-    --disabled: #d0c8c0;
-    --disabled-text: #b0a89e;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Lato', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 24px 16px 40px;
-    background-image: radial-gradient(ellipse at 20% 10%, #e8ddd5 0%, transparent 50%),
-                      radial-gradient(ellipse at 80% 90%, #dde8dd 0%, transparent 50%);
-  }
-  h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; text-align: center; color: var(--text); margin-bottom: 4px; letter-spacing: -0.5px; }
-  .subtitle { text-align: center; color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; font-weight: 300; }
+:root {
+  --bg:#f5f0eb; --surface:#fefcf9; --accent:#c17f5a; --accent2:#7a9e87;
+  --text:#3a2e28; --muted:#9a8a7e; --shadow:rgba(100,70,50,0.12);
+  --red:#c0443a; --black:#2a2420; --disabled:#d0c8c0; --disabled-text:#b0a89e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Lato;background:var(--bg);color:var(--text);padding:24px 16px 40px}
 
-  /* USER SWITCHER */
-  .user-section { max-width: 600px; margin: 0 auto 24px; background: var(--surface); border-radius: 16px; padding: 14px 16px; box-shadow: 0 2px 12px var(--shadow); }
-  .user-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-  .user-section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); }
-  .users-list { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .user-chip {
-    display: flex; align-items: center; gap: 6px;
-    padding: 6px 14px 6px 10px; border-radius: 50px;
-    border: 1.5px solid #e0d4cc; background: var(--bg);
-    cursor: pointer; transition: all 0.2s; font-size: 0.85rem; font-weight: 700;
-    color: var(--muted); user-select: none;
-  }
-  .user-chip:hover { border-color: var(--accent); color: var(--accent); }
-  .user-chip.active { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 2px 10px rgba(193,127,90,0.35); }
-  .user-chip .user-avatar {
-    width: 22px; height: 22px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.72rem; font-weight: 700; flex-shrink: 0;
-    background: var(--card-back); color: var(--muted);
-  }
-  .user-chip.active .user-avatar { background: rgba(255,255,255,0.25); color: white; }
-  .user-chip .delete-user { margin-left: 2px; opacity: 0; transition: opacity 0.15s; font-size: 0.75rem; cursor: pointer; color: rgba(255,255,255,0.65); }
-  .user-chip.active:hover .delete-user { opacity: 1; }
-  .user-chip:not(.active) .delete-user { color: var(--muted); }
-  .user-chip:not(.active):hover .delete-user { opacity: 1; }
+h1{font-family:"Playfair Display";text-align:center;margin-bottom:4px}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:20px;font-size:.9rem}
 
-  /* TIMER */
-  .timer-section { background: var(--surface); border-radius: 20px; padding: 28px 24px 24px; text-align: center; box-shadow: 0 4px 24px var(--shadow); max-width: 480px; margin: 0 auto 28px; }
-  .current-user-banner { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 14px; font-weight: 700; }
-  .current-card-display { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 18px; }
-  .drawn-card {
-    width: 64px; height: 90px; border-radius: 8px; background: var(--surface); border: 2px solid #e0d4cc;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
-    box-shadow: 0 2px 12px var(--shadow); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative;
-  }
-  .drawn-card.red { color: var(--red); }
-  .drawn-card.black { color: var(--black); }
-  .drawn-card.empty { color: var(--muted); font-size: 0.8rem; font-family: 'Lato', sans-serif; font-weight: 300; background: var(--card-back); }
-  .timer-display { font-family: 'Playfair Display', serif; font-size: 4.5rem; font-weight: 700; letter-spacing: 2px; color: var(--text); line-height: 1; margin-bottom: 8px; transition: color 0.3s; }
-  .timer-display.running { color: var(--accent2); }
-  .timer-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
-  .timer-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.tab-bar{display:flex;justify-content:center;gap:10px;margin-bottom:20px}
+.tab{padding:8px 18px;border-radius:50px;border:1px solid #ddd;cursor:pointer;font-weight:700}
+.tab.active{background:var(--accent);color:white;border-color:var(--accent)}
 
-  .btn { padding: 10px 22px; border: none; border-radius: 50px; font-family: 'Lato', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px; }
-  .btn:active { transform: scale(0.96); }
-  .btn-primary { background: var(--accent); color: white; box-shadow: 0 3px 12px rgba(193,127,90,0.35); }
-  .btn-primary:hover { background: #a86d48; }
-  .btn-secondary { background: var(--accent2); color: white; box-shadow: 0 3px 12px rgba(122,158,135,0.35); }
-  .btn-secondary:hover { background: #6a8e75; }
-  .btn-ghost { background: transparent; color: var(--muted); border: 1.5px solid #d8cec6; }
-  .btn-ghost:hover { background: #f0ebe5; color: var(--text); }
-  .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
-  .btn:disabled { background: var(--disabled); color: var(--disabled-text); cursor: not-allowed; box-shadow: none; }
+.section{background:var(--surface);border-radius:16px;padding:14px;margin:0 auto 20px;max-width:600px;box-shadow:0 2px 12px var(--shadow)}
 
-  .progress-bar-wrap { height: 6px; background: #ece5de; border-radius: 99px; margin: 16px 0 0; overflow: hidden; }
-  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 99px; width: 100%; transition: width 1s linear; }
+.timer-display{font-family:"Playfair Display";font-size:3.5rem;text-align:center;margin:10px 0}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
-  /* DECK */
-  .deck-section { max-width: 600px; margin: 0 auto; }
-  .deck-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding: 0 4px; }
-  .deck-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--text); }
-  .deck-count { font-size: 0.85rem; color: var(--muted); background: var(--surface); padding: 4px 12px; border-radius: 99px; border: 1px solid #e0d4cc; }
-  .suits-container { display: flex; flex-direction: column; gap: 12px; }
-  .suit-row { background: var(--surface); border-radius: 14px; padding: 14px 14px 10px; box-shadow: 0 2px 12px var(--shadow); }
-  .suit-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-  .suit-label .suit-icon { font-size: 1rem; }
-  .suit-label.red .suit-icon { color: var(--red); }
-  .suit-label.black .suit-icon { color: var(--black); }
-  .cards-grid { display: flex; flex-wrap: wrap; gap: 6px; }
-  .mini-card { width: 40px; height: 54px; border-radius: 6px; border: 1.5px solid #e0d4cc; background: var(--surface); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700; user-select: none; }
-  .mini-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px var(--shadow); }
-  .mini-card.red { color: var(--red); }
-  .mini-card.black { color: var(--black); }
-  .mini-card.disabled { background: var(--card-back); color: var(--disabled-text); border-color: var(--disabled); text-decoration: line-through; opacity: 0.5; transform: none; }
-  .mini-card .mini-suit { font-size: 0.55rem; }
-  .mini-card.active-card { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent), 0 4px 14px rgba(193,127,90,0.3); }
-  .reset-wrap { text-align: center; margin-top: 16px; }
+.btn{padding:10px 18px;border:none;border-radius:50px;font-weight:700;cursor:pointer}
+.btn-primary{background:var(--accent);color:white}
+.btn-secondary{background:var(--accent2);color:white}
+.btn-ghost{background:transparent;border:1px solid #ddd;color:var(--muted)}
 
-  @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
-  .pop { animation: pop 0.3s ease; }
-  @keyframes pulse-red { 0%, 100% { color: var(--red); } 50% { color: #e87070; } }
-  .timer-display.pulsing { animation: pulse-red 0.6s ease infinite; }
-
-  /* Modal */
-  .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(58,46,40,0.35); backdrop-filter: blur(3px); z-index: 100; align-items: center; justify-content: center; }
-  .modal-backdrop.visible { display: flex; }
-  .modal { background: var(--surface); border-radius: 20px; padding: 28px 28px 24px; max-width: 340px; width: 90%; box-shadow: 0 12px 40px rgba(58,46,40,0.25); animation: slideUp 0.2s ease; }
-  @keyframes slideUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-  .modal h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 6px; }
-  .modal p { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
-  .modal input { width: 100%; padding: 10px 16px; border-radius: 50px; border: 1.5px solid #d8cec6; font-family: 'Lato', sans-serif; font-size: 0.95rem; background: var(--bg); color: var(--text); outline: none; margin-bottom: 14px; transition: border-color 0.2s; }
-  .modal input:focus { border-color: var(--accent); }
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.hidden{display:none}
+input{padding:8px 12px;border-radius:50px;border:1px solid #ddd}
 </style>
 </head>
+
 <body>
 
 <h1>Study by the Deck</h1>
-<p class="subtitle">Draw a card · study for its time · conquer the deck</p>
+<p class="subtitle">Cards or Pomodoro — choose your focus style</p>
 
-<!-- USER SWITCHER -->
-<div class="user-section">
-  <div class="user-section-header">
-    <span class="user-section-title">👤 Studying Now</span>
-    <button class="btn btn-ghost btn-sm" id="addUserBtn">+ Add User</button>
-  </div>
-  <div class="users-list" id="usersList"></div>
+<!-- TABS -->
+<div class="tab-bar">
+  <div class="tab active" id="deckTab">🃏 Deck Mode</div>
+  <div class="tab" id="pomoTab">🍅 Pomodoro</div>
+</div>
+
+<!-- ================= DECK MODE ================= -->
+<div id="deckMode">
+
+<div class="section">
+<b>👤 Studying Now</b>
+<div id="usersList" style="margin-top:10px"></div>
+<button class="btn btn-ghost" id="addUserBtn">+ Add User</button>
+</div>
+
+<!-- MULTIPLIER -->
+<div class="section">
+<b>⏱ Study Multiplier</b>
+<div style="display:flex;gap:10px;margin-top:8px">
+<input type="number" id="multiplierInput" value="10" min="1">
+<button class="btn btn-secondary" id="applyMultiplierBtn">Apply</button>
+</div>
 </div>
 
 <!-- TIMER -->
-<div class="timer-section">
-  <div class="current-user-banner" id="currentUserBanner">— Select a user —</div>
-  <div class="current-card-display">
-    <div class="drawn-card empty" id="drawnCard">
-      <span>draw</span>
-      <span>a card</span>
-    </div>
-    <div>
-      <div class="timer-display" id="timerDisplay">00:00</div>
-      <div class="timer-label" id="timerLabel">Draw a card to start</div>
-      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
-    </div>
-  </div>
-  <div class="timer-controls">
-    <button class="btn btn-primary" id="drawBtn">🃏 Draw Card</button>
-    <button class="btn btn-secondary" id="startStopBtn" disabled>▶ Start</button>
-    <button class="btn btn-ghost" id="resetTimerBtn" disabled>↺ Reset</button>
-  </div>
+<div class="section">
+<div class="timer-display" id="timerDisplay">00:00</div>
+<div style="text-align:center;margin-bottom:10px" id="timerLabel">Draw a card</div>
+<div class="controls">
+<button class="btn btn-primary" id="drawBtn">Draw</button>
+<button class="btn btn-secondary" id="startStopBtn">Start</button>
+<button class="btn btn-ghost" id="resetTimerBtn">Reset</button>
+</div>
 </div>
 
-<!-- DECK -->
-<div class="deck-section">
-  <div class="deck-header">
-    <span class="deck-title">Your Deck</span>
-    <span class="deck-count" id="deckCount">54 cards remaining</span>
-  </div>
-  <div class="suits-container" id="suitsContainer"></div>
-  <div class="reset-wrap">
-    <button class="btn btn-ghost" id="resetDeckBtn">Reset Full Deck</button>
-  </div>
 </div>
 
-<!-- ADD USER MODAL -->
-<div class="modal-backdrop" id="modalBackdrop">
-  <div class="modal">
-    <h2>Add a New User</h2>
-    <p>Each user gets their own independent deck and progress that persists across reloads.</p>
-    <input type="text" id="newUserInput" placeholder="Enter name..." maxlength="24" />
-    <div class="modal-actions">
-      <button class="btn btn-ghost btn-sm" id="modalCancelBtn">Cancel</button>
-      <button class="btn btn-primary btn-sm" id="modalConfirmBtn">Add User</button>
-    </div>
-  </div>
+<!-- ================= POMODORO MODE ================= -->
+<div id="pomoMode" class="hidden">
+
+<div class="section">
+<b>Pomodoro Settings</b>
+<div style="display:flex;gap:10px;margin-top:8px">
+<label>Focus <input type="number" id="focusInput" value="25"></label>
+<label>Break <input type="number" id="breakInput" value="5"></label>
+</div>
+</div>
+
+<div class="section">
+<div class="timer-display" id="pomoDisplay">25:00</div>
+<div style="text-align:center;margin-bottom:10px" id="pomoLabel">Focus Time</div>
+<div class="controls">
+<button class="btn btn-primary" id="pomoStart">Start</button>
+<button class="btn btn-ghost" id="pomoReset">Reset</button>
+</div>
+<div style="text-align:center;margin-top:8px">Sessions: <span id="sessionCount">0</span></div>
+</div>
+
 </div>
 
 <script>
-const SUITS = [
-  { name: 'Hearts',   symbol: '♥', color: 'red'   },
-  { name: 'Diamonds', symbol: '♦', color: 'red'   },
-  { name: 'Clubs',    symbol: '♣', color: 'black' },
-  { name: 'Spades',   symbol: '♠', color: 'black' },
-];
-const RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
-const JOKERS = ['Joker-Red', 'Joker-Black'];
-
-function cardValue(rank) {
-  if (rank === 'A') return 1;
-  if (['J','Q','K'].includes(rank)) return 10;
-  return parseInt(rank);
-}
-function studyMinutes(rank) { return rank === 'Joker' ? 120 : cardValue(rank) * 10; }
-function isJoker(key) { return key === 'Joker-Red' || key === 'Joker-Black'; }
-
-// ── Storage ──────────────────────────────────────────────────────────────────
-const USERS_META_KEY  = 'studyDeck_users';
-const ACTIVE_USER_KEY = 'studyDeck_activeUser';
-
-function getStoredMeta()          { try { return JSON.parse(localStorage.getItem(USERS_META_KEY)) || []; } catch(e) { return []; } }
-function saveStoredMeta(meta)     { try { localStorage.setItem(USERS_META_KEY, JSON.stringify(meta)); } catch(e) {} }
-function getStoredUser(id)        { try { return JSON.parse(localStorage.getItem('studyDeck_u_' + id)); } catch(e) { return null; } }
-function saveStoredUser(id, data) { try { localStorage.setItem('studyDeck_u_' + id, JSON.stringify(data)); } catch(e) {} }
-function deleteStoredUser(id)     { try { localStorage.removeItem('studyDeck_u_' + id); } catch(e) {} }
-function getActiveId()            { return localStorage.getItem(ACTIVE_USER_KEY) || null; }
-function setActiveId(id)          { if (id) localStorage.setItem(ACTIVE_USER_KEY, id); else localStorage.removeItem(ACTIVE_USER_KEY); }
-
-function freshDeck() {
-  const d = {};
-  SUITS.forEach(s => RANKS.forEach(r => { d[r + '-' + s.name] = true; }));
-  JOKERS.forEach(j => { d[j] = true; });
-  return d;
+// ================= TAB SWITCH =================
+const deckMode=document.getElementById("deckMode")
+const pomoMode=document.getElementById("pomoMode")
+document.getElementById("deckTab").onclick=()=>{deckMode.classList.remove("hidden");pomoMode.classList.add("hidden");toggleTabs(0)}
+document.getElementById("pomoTab").onclick=()=>{pomoMode.classList.remove("hidden");deckMode.classList.add("hidden");toggleTabs(1)}
+function toggleTabs(i){
+document.querySelectorAll(".tab").forEach((t,index)=>t.classList.toggle("active",index===i))
 }
 
-// ── App State ────────────────────────────────────────────────────────────────
-let users        = [];   // full user objects in memory
-let activeUserId = null;
-let deck         = {};
-let currentCard  = null;
-let timerInterval = null;
-let timeLeft = 0, totalTime = 0, timerRunning = false;
-
-function getActiveUser() { return users.find(u => u.id === activeUserId) || null; }
-
-function persist() {
-  const u = getActiveUser();
-  if (!u) return;
-  u.deck = deck;
-  u.currentCard = currentCard;
-  saveStoredUser(u.id, u);
+// ================= MULTIPLIER =================
+let STUDY_MULTIPLIER=10
+document.getElementById("applyMultiplierBtn").onclick=()=>{
+const v=parseInt(multiplierInput.value)
+if(v>0)STUDY_MULTIPLIER=v
 }
 
-// ── User management ──────────────────────────────────────────────────────────
-function createUser(name) {
-  const id = 'u' + Date.now() + Math.random().toString(36).slice(2, 5);
-  return { id, name, deck: freshDeck(), currentCard: null };
+// ================= SIMPLE CARD TIMER =================
+let timeLeft=0,totalTime=0,interval=null,running=false
+function format(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+
+function drawCard(){
+const value=Math.floor(Math.random()*13)+1
+const mins=value*STUDY_MULTIPLIER
+totalTime=timeLeft=mins*60
+timerDisplay.textContent=format(timeLeft)
+timerLabel.textContent=value+" × "+STUDY_MULTIPLIER+" = "+mins+" mins"
+}
+drawBtn.onclick=drawCard
+
+startStopBtn.onclick=()=>{
+if(!running){
+running=true
+interval=setInterval(()=>{
+timeLeft--
+timerDisplay.textContent=format(timeLeft)
+if(timeLeft<=0){clearInterval(interval);running=false}
+},1000)
+}else{
+running=false
+clearInterval(interval)
+}
 }
 
-function addUser(name) {
-  name = name.trim();
-  if (!name) return;
-  const u = createUser(name);
-  users.push(u);
-  saveStoredMeta(users.map(u => ({ id: u.id, name: u.name })));
-  saveStoredUser(u.id, u);
-  switchUser(u.id);
+resetTimerBtn.onclick=()=>{clearInterval(interval);running=false;timeLeft=totalTime;timerDisplay.textContent=format(timeLeft)}
+
+// ================= POMODORO =================
+let pomoTime=25*60,pomoRunning=false,pomoInterval=null,onBreak=false,sessions=0
+
+function updatePomoDisplay(){
+pomoDisplay.textContent=format(pomoTime)
+pomoLabel.textContent=onBreak?"Break":"Focus Time"
 }
 
-function removeUser(id) {
-  if (users.length <= 1) { alert('You need at least one user.'); return; }
-  const u = users.find(u => u.id === id);
-  if (!confirm('Remove ' + (u ? u.name : 'this user') + '? Their progress will be lost.')) return;
-  deleteStoredUser(id);
-  users = users.filter(u => u.id !== id);
-  saveStoredMeta(users.map(u => ({ id: u.id, name: u.name })));
-  if (activeUserId === id) switchUser(users[0].id);
-  else renderUsers();
+pomoStart.onclick=()=>{
+if(!pomoRunning){
+pomoRunning=true
+pomoInterval=setInterval(()=>{
+pomoTime--
+updatePomoDisplay()
+if(pomoTime<=0){
+clearInterval(pomoInterval)
+pomoRunning=false
+if(!onBreak){sessions++;sessionCount.textContent=sessions}
+onBreak=!onBreak
+pomoTime=(onBreak?breakInput.value:focusInput.value)*60
+updatePomoDisplay()
+}
+},1000)
+}
 }
 
-function switchUser(id) {
-  persist();        // save current user before switching
-  stopTimer(false);
-  activeUserId = id;
-  setActiveId(id);
-  const u = users.find(u => u.id === id);
-  if (!u) return;
-  deck        = u.deck        || freshDeck();
-  currentCard = u.currentCard || null;
-  document.getElementById('currentUserBanner').textContent = '\uD83D\uDCD6 ' + u.name + '\'s Session';
-  restoreCardDisplay();
-  renderUsers();
-  renderDeck();
+pomoReset.onclick=()=>{
+clearInterval(pomoInterval)
+pomoRunning=false
+onBreak=false
+pomoTime=focusInput.value*60
+updatePomoDisplay()
 }
 
-function initials(name) {
-  return name.trim().split(/\s+/).map(w => w[0]).join('').toUpperCase().slice(0, 2);
+updatePomoDisplay()
+
+// ================= USERS (simple demo) =================
+let users=["Me"]
+function renderUsers(){
+usersList.innerHTML=""
+users.forEach(u=>{
+const el=document.createElement("div")
+el.textContent=u
+usersList.appendChild(el)
+})
 }
-
-// ── Render users ─────────────────────────────────────────────────────────────
-function renderUsers() {
-  const list = document.getElementById('usersList');
-  list.innerHTML = '';
-  users.forEach(function(u) {
-    const chip = document.createElement('div');
-    chip.className = 'user-chip' + (u.id === activeUserId ? ' active' : '');
-
-    const av = document.createElement('span');
-    av.className = 'user-avatar';
-    av.textContent = initials(u.name);
-
-    const lbl = document.createElement('span');
-    lbl.textContent = u.name;
-
-    const del = document.createElement('span');
-    del.className = 'delete-user';
-    del.title = 'Remove user';
-    del.textContent = '\u2715';
-    del.addEventListener('click', function(e) { e.stopPropagation(); removeUser(u.id); });
-
-    chip.appendChild(av);
-    chip.appendChild(lbl);
-    chip.appendChild(del);
-    chip.addEventListener('click', function() { if (u.id !== activeUserId) switchUser(u.id); });
-    list.appendChild(chip);
-  });
+renderUsers()
+addUserBtn.onclick=()=>{
+const n=prompt("Name?")
+if(n){users.push(n);renderUsers()}
 }
-
-// ── Card display restore ──────────────────────────────────────────────────────
-function restoreCardDisplay() {
-  const el = document.getElementById('drawnCard');
-  if (currentCard) {
-    const joker = isJoker(currentCard.key);
-    el.className = 'drawn-card ' + currentCard.suit.color;
-    el.innerHTML = '<span>' + (joker ? '🃏' : currentCard.rank) + '</span><span class="mini-suit">' + (joker ? currentCard.suit.name : currentCard.suit.symbol) + '</span>';
-    const mins = studyMinutes(currentCard.rank);
-    totalTime = mins * 60; timeLeft = totalTime;
-    const lbl = joker ? currentCard.suit.name + ' Joker' : currentCard.rank + ' of ' + currentCard.suit.name;
-    document.getElementById('timerDisplay').textContent = formatTime(timeLeft);
-    document.getElementById('timerDisplay').className = 'timer-display';
-    document.getElementById('timerLabel').textContent = lbl + ' \u00B7 ' + mins + ' minutes';
-    document.getElementById('progressBar').style.width = '100%';
-    document.getElementById('startStopBtn').disabled = false;
-    document.getElementById('startStopBtn').textContent = '\u25B6 Start';
-    document.getElementById('resetTimerBtn').disabled = false;
-  } else {
-    el.className = 'drawn-card empty';
-    el.innerHTML = '<span>draw</span><span>a card</span>';
-    document.getElementById('timerDisplay').textContent = '00:00';
-    document.getElementById('timerDisplay').className = 'timer-display';
-    document.getElementById('timerLabel').textContent = 'Draw a card to start';
-    document.getElementById('progressBar').style.width = '100%';
-    document.getElementById('startStopBtn').disabled = true;
-    document.getElementById('startStopBtn').textContent = '\u25B6 Start';
-    document.getElementById('resetTimerBtn').disabled = true;
-  }
-}
-
-// ── Deck ─────────────────────────────────────────────────────────────────────
-function availableCards() { return Object.keys(deck).filter(function(k) { return deck[k]; }); }
-
-function formatTime(secs) {
-  return String(Math.floor(secs / 60)).padStart(2,'0') + ':' + String(secs % 60).padStart(2,'0');
-}
-
-function updateDeckCount() {
-  var n = availableCards().length;
-  document.getElementById('deckCount').textContent = n + ' card' + (n !== 1 ? 's' : '') + ' remaining';
-}
-
-function renderDeck() {
-  var container = document.getElementById('suitsContainer');
-  container.innerHTML = '';
-  SUITS.forEach(function(suit) {
-    var row = document.createElement('div');
-    row.className = 'suit-row';
-    var label = document.createElement('div');
-    label.className = 'suit-label ' + suit.color;
-    label.innerHTML = '<span class="suit-icon">' + suit.symbol + '</span> ' + suit.name;
-    row.appendChild(label);
-    var grid = document.createElement('div');
-    grid.className = 'cards-grid';
-    RANKS.forEach(function(rank) {
-      var key = rank + '-' + suit.name;
-      var card = document.createElement('div');
-      card.className = 'mini-card ' + suit.color + (!deck[key] ? ' disabled' : '');
-      if (currentCard && currentCard.key === key) card.classList.add('active-card');
-      card.innerHTML = '<span>' + rank + '</span><span class="mini-suit">' + suit.symbol + '</span>';
-      card.title = rank + ' of ' + suit.name + ' \u2014 ' + studyMinutes(rank) + ' min';
-      card.addEventListener('click', function() { toggleCard(key); });
-      grid.appendChild(card);
-    });
-    row.appendChild(grid);
-    container.appendChild(row);
-  });
-
-  // Joker row
-  var jr = document.createElement('div'); jr.className = 'suit-row';
-  var jl = document.createElement('div'); jl.className = 'suit-label black';
-  jl.innerHTML = '<span class="suit-icon">🃏</span> Jokers <span style="margin-left:6px;font-size:0.7rem;color:var(--accent)">(2 hrs each)</span>';
-  jr.appendChild(jl);
-  var jg = document.createElement('div'); jg.className = 'cards-grid';
-  JOKERS.forEach(function(key) {
-    var isRed = key === 'Joker-Red';
-    var card = document.createElement('div');
-    card.className = 'mini-card ' + (isRed ? 'red' : 'black') + (!deck[key] ? ' disabled' : '');
-    if (currentCard && currentCard.key === key) card.classList.add('active-card');
-    card.innerHTML = '<span>🃏</span><span class="mini-suit" style="font-size:0.6rem">' + (isRed ? 'Red' : 'Blk') + '</span>';
-    card.title = (isRed ? 'Red' : 'Black') + ' Joker \u2014 120 min (2 hrs)';
-    card.addEventListener('click', function() { toggleCard(key); });
-    jg.appendChild(card);
-  });
-  jr.appendChild(jg); container.appendChild(jr);
-  updateDeckCount();
-}
-
-function toggleCard(key) {
-  if (currentCard && currentCard.key === key) return;
-  deck[key] = !deck[key];
-  persist();
-  renderDeck();
-}
-
-function drawCard() {
-  if (!activeUserId) { alert('Please select or add a user first!'); return; }
-  var avail = availableCards();
-  if (avail.length === 0) { alert('No cards left! Reset the deck to play again.'); return; }
-  stopTimer(false);
-
-  var key = avail[Math.floor(Math.random() * avail.length)];
-  deck[key] = false;
-
-  var rank, suit, cardLabel;
-  if (isJoker(key)) {
-    rank = 'Joker';
-    var isRed = key === 'Joker-Red';
-    suit = { name: isRed ? 'Red' : 'Black', symbol: '🃏', color: isRed ? 'red' : 'black' };
-    cardLabel = (isRed ? 'Red' : 'Black') + ' Joker';
-  } else {
-    var parts = key.split('-');
-    rank = parts[0];
-    var suitName = parts.slice(1).join('-');
-    suit = SUITS.find(function(s) { return s.name === suitName; });
-    cardLabel = rank + ' of ' + suit.name;
-  }
-  currentCard = { key: key, rank: rank, suit: suit };
-
-  var el = document.getElementById('drawnCard');
-  el.className = 'drawn-card ' + suit.color;
-  el.innerHTML = '<span>' + (rank === 'Joker' ? '🃏' : rank) + '</span><span class="mini-suit">' + (rank === 'Joker' ? suit.name : suit.symbol) + '</span>';
-  el.classList.add('pop');
-  setTimeout(function() { el.classList.remove('pop'); }, 400);
-
-  var mins = studyMinutes(rank);
-  totalTime = mins * 60; timeLeft = totalTime;
-  document.getElementById('timerDisplay').textContent = formatTime(timeLeft);
-  document.getElementById('timerDisplay').className = 'timer-display';
-  document.getElementById('timerLabel').textContent = cardLabel + ' \u00B7 ' + mins + ' minutes';
-  document.getElementById('progressBar').style.width = '100%';
-  document.getElementById('startStopBtn').disabled = false;
-  document.getElementById('startStopBtn').textContent = '\u25B6 Start';
-  document.getElementById('resetTimerBtn').disabled = false;
-
-  persist(); renderDeck();
-}
-
-// ── Timer ─────────────────────────────────────────────────────────────────────
-function startTimer() {
-  if (timeLeft <= 0) return;
-  timerRunning = true;
-  document.getElementById('startStopBtn').textContent = '\u23F8 Pause';
-  document.getElementById('timerDisplay').className = 'timer-display running';
-  timerInterval = setInterval(function() {
-    timeLeft--;
-    document.getElementById('timerDisplay').textContent = formatTime(timeLeft);
-    document.getElementById('progressBar').style.width = (timeLeft / totalTime * 100) + '%';
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval); timerRunning = false;
-      document.getElementById('timerDisplay').className = 'timer-display pulsing';
-      document.getElementById('timerLabel').textContent = "\u2705 Time's up! Great work!";
-      document.getElementById('startStopBtn').textContent = '\u25B6 Start';
-      document.getElementById('startStopBtn').disabled = true;
-      playAlarm();
-    }
-  }, 1000);
-}
-
-function pauseTimer() {
-  clearInterval(timerInterval); timerRunning = false;
-  document.getElementById('startStopBtn').textContent = '\u25B6 Start';
-  document.getElementById('timerDisplay').className = 'timer-display';
-}
-
-function stopTimer(resetDisplay) {
-  if (resetDisplay === undefined) resetDisplay = true;
-  clearInterval(timerInterval); timerRunning = false;
-  if (resetDisplay) {
-    document.getElementById('startStopBtn').textContent = '\u25B6 Start';
-    document.getElementById('timerDisplay').className = 'timer-display';
-  }
-}
-
-function resetTimer() {
-  stopTimer();
-  if (currentCard) {
-    var mins = studyMinutes(currentCard.rank);
-    totalTime = mins * 60; timeLeft = totalTime;
-    document.getElementById('timerDisplay').textContent = formatTime(timeLeft);
-    document.getElementById('timerDisplay').className = 'timer-display';
-    document.getElementById('progressBar').style.width = '100%';
-    document.getElementById('startStopBtn').textContent = '\u25B6 Start';
-    document.getElementById('startStopBtn').disabled = false;
-  }
-}
-
-function playAlarm() {
-  try {
-    var ctx = new (window.AudioContext || window.webkitAudioContext)();
-    var notes = [523,659,784,1047,784,659,523,659,784,1047];
-    var time = ctx.currentTime;
-    notes.forEach(function(freq) {
-      var o = ctx.createOscillator(), g = ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.type = 'sine'; o.frequency.setValueAtTime(freq, time);
-      g.gain.setValueAtTime(0, time);
-      g.gain.linearRampToValueAtTime(0.4, time + 0.05);
-      g.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
-      o.start(time); o.stop(time + 0.3); time += 0.22;
-    });
-    for (var r = 0; r < 3; r++) {
-      var o2 = ctx.createOscillator(), g2 = ctx.createGain();
-      o2.connect(g2); g2.connect(ctx.destination);
-      o2.type = 'square'; o2.frequency.value = 440 + r * 80;
-      g2.gain.setValueAtTime(0.15, time);
-      g2.gain.exponentialRampToValueAtTime(0.001, time + 0.5);
-      o2.start(time); o2.stop(time + 0.5); time += 0.55;
-    }
-  } catch(e) {}
-}
-
-// ── Modal ─────────────────────────────────────────────────────────────────────
-var modalBackdrop = document.getElementById('modalBackdrop');
-var newUserInput  = document.getElementById('newUserInput');
-
-document.getElementById('addUserBtn').addEventListener('click', function() {
-  newUserInput.value = '';
-  modalBackdrop.classList.add('visible');
-  setTimeout(function() { newUserInput.focus(); }, 100);
-});
-document.getElementById('modalCancelBtn').addEventListener('click', function() { modalBackdrop.classList.remove('visible'); });
-document.getElementById('modalConfirmBtn').addEventListener('click', function() {
-  var name = newUserInput.value.trim();
-  if (!name) { newUserInput.focus(); return; }
-  addUser(name);
-  modalBackdrop.classList.remove('visible');
-});
-newUserInput.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter')  document.getElementById('modalConfirmBtn').click();
-  if (e.key === 'Escape') modalBackdrop.classList.remove('visible');
-});
-modalBackdrop.addEventListener('click', function(e) { if (e.target === modalBackdrop) modalBackdrop.classList.remove('visible'); });
-
-// ── Buttons ───────────────────────────────────────────────────────────────────
-document.getElementById('drawBtn').addEventListener('click', drawCard);
-document.getElementById('startStopBtn').addEventListener('click', function() {
-  if (timerRunning) pauseTimer(); else startTimer();
-});
-document.getElementById('resetTimerBtn').addEventListener('click', resetTimer);
-document.getElementById('resetDeckBtn').addEventListener('click', function() {
-  if (!activeUserId) return;
-  var u = getActiveUser();
-  if (!confirm('Reset ' + (u ? u.name + "'s" : 'the') + ' full deck? All 54 cards will be restored.')) return;
-  stopTimer(); currentCard = null; deck = freshDeck(); persist();
-  restoreCardDisplay(); renderDeck();
-});
-
-// ── Bootstrap ─────────────────────────────────────────────────────────────────
-(function init() {
-  var meta = getStoredMeta();
-  if (meta.length === 0) {
-    // First launch — create a default user
-    var u = createUser('Me');
-    users = [u];
-    saveStoredMeta([{ id: u.id, name: u.name }]);
-    saveStoredUser(u.id, u);
-    switchUser(u.id);
-  } else {
-    users = meta.map(function(m) {
-      var d = getStoredUser(m.id);
-      return d || { id: m.id, name: m.name, deck: freshDeck(), currentCard: null };
-    });
-    var last = getActiveId();
-    var target = users.find(function(u) { return u.id === last; }) ? last : users[0].id;
-    switchUser(target);
-  }
-})();
 </script>
+
 </body>
 </html>
