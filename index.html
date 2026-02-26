@@ -727,7 +727,7 @@ function updateBreakDesc() {
   if (breakMode === 'custom') {
     desc.textContent = 'Break = ' + breakCustomMin + ' min (fixed)';
   } else {
-    desc.textContent = 'Break = card value × ' + Math.round(multiplier * 0.5 * 10)/10 + ' min (½ × ' + multiplier + ')';
+    desc.textContent = 'Break =  ½ card value × ' + Math.round(multiplier * 0.5 * 10)/10 + ' min (½ multiplier)';
   }
 }
 function saveBreakSettings() {
