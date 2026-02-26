@@ -20,11 +20,12 @@
   body[data-theme="forest"]   {--bg:#0f1a12;--surface:#33533e;--accent:#5dbd6e;--accent2:#8ad4a0;--text:#e6f4ea;--muted:#a3c4ad;--card-back:#508b65;--shadow:rgba(0,0,0,0.45);}
 
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:24px 16px 80px;background-image:radial-gradient(ellipse at 20% 10%,#e8ddd5 0%,transparent 50%),radial-gradient(ellipse at 80% 90%,#dde8dd 0%,transparent 50%);}
+  body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:24px 16px 80px;
+    background-image:radial-gradient(ellipse at 20% 10%,#e8ddd5 0%,transparent 50%),radial-gradient(ellipse at 80% 90%,#dde8dd 0%,transparent 50%);}
   h1{font-family:'Playfair Display',serif;font-size:2.2rem;text-align:center;color:var(--text);margin-bottom:4px;letter-spacing:-0.5px;}
   .subtitle{text-align:center;color:var(--muted);font-size:0.9rem;margin-bottom:20px;font-weight:300;}
 
-  /* THEME */
+  /* THEME SWITCHER */
   .theme-switcher{position:fixed;top:16px;right:16px;z-index:50;display:flex;gap:6px;background:var(--surface);border-radius:50px;padding:6px;box-shadow:0 2px 16px var(--shadow);border:1px solid var(--border);}
   .theme-btn{width:28px;height:28px;border-radius:50%;border:2px solid rgba(0,0,0,0.15);cursor:pointer;transition:all 0.2s;display:block;padding:0;}
   .theme-btn:hover{transform:scale(1.15);}
@@ -34,9 +35,11 @@
   .theme-btn[data-theme="midnight"]{background:linear-gradient(135deg,#0d0f1a,#7c6fff);}
   .theme-btn[data-theme="forest"]{background:linear-gradient(135deg,#0f1a12,#5dbd6e);}
 
-  /* BADGE */
-  .deck-completions-badge{position:fixed;top:16px;left:16px;z-index:50;background:var(--surface);border-radius:50px;padding:6px 14px 6px 10px;box-shadow:0 2px 16px var(--shadow);border:1px solid var(--border);display:flex;align-items:center;gap:7px;cursor:default;transition:transform 0.2s;}
-  .deck-completions-badge:hover{transform:scale(1.04);}
+  /* TROPHY BADGE — clickable to open progress modal */
+  .deck-completions-badge{position:fixed;top:16px;left:16px;z-index:50;background:var(--surface);border-radius:50px;padding:6px 14px 6px 10px;
+    box-shadow:0 2px 16px var(--shadow);border:1px solid var(--border);display:flex;align-items:center;gap:7px;
+    cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;}
+  .deck-completions-badge:hover{transform:scale(1.05);box-shadow:0 4px 20px var(--shadow);}
   .badge-icon{font-size:1.1rem;}
   .badge-content{display:flex;flex-direction:column;line-height:1.2;}
   .badge-num{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--accent);}
@@ -44,15 +47,25 @@
   @keyframes badge-pop{0%{transform:scale(1)}40%{transform:scale(1.3)}70%{transform:scale(0.92)}100%{transform:scale(1)}}
   .badge-animate{animation:badge-pop 0.5s cubic-bezier(0.34,1.56,0.64,1);}
 
+  /* STREAK BADGE */
+  .streak-badge{position:fixed;top:62px;left:16px;z-index:50;background:var(--surface);border-radius:50px;
+    padding:5px 12px 5px 10px;box-shadow:0 2px 12px var(--shadow);border:1px solid var(--border);
+    display:flex;align-items:center;gap:6px;cursor:default;}
+  .streak-num{font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--accent);}
+  .streak-sub{font-size:0.6rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
+
   /* HELP BUTTON */
-  .help-btn{position:fixed;bottom:24px;left:16px;z-index:50;width:36px;height:36px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border);box-shadow:0 2px 12px var(--shadow);display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--muted);transition:all 0.2s;}
+  .help-btn{position:fixed;bottom:24px;left:16px;z-index:50;width:36px;height:36px;border-radius:50%;
+    background:var(--surface);border:1.5px solid var(--border);box-shadow:0 2px 12px var(--shadow);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--muted);transition:all 0.2s;}
   .help-btn:hover{border-color:var(--accent);color:var(--accent);transform:scale(1.1);}
 
   /* TABS */
-  .tabs-nav{max-width:600px;margin:0 auto 20px;display:flex;gap:0;background:var(--surface);border-radius:14px;padding:5px;box-shadow:0 2px 12px var(--shadow);}
+  .tabs-nav{max-width:600px;margin:0 auto 20px;display:flex;background:var(--surface);border-radius:14px;padding:5px;box-shadow:0 2px 12px var(--shadow);}
   .tab-btn{flex:1;padding:10px 0;border:none;background:transparent;font-family:'Lato',sans-serif;font-size:0.88rem;font-weight:700;color:var(--muted);border-radius:10px;cursor:pointer;transition:all 0.22s;letter-spacing:0.5px;}
   .tab-btn.active{background:var(--accent);color:white;box-shadow:0 2px 10px rgba(193,127,90,0.35);}
-  .tab-btn:not(.active):hover{color:var(--accent);background:#f5ede6;}
+  .tab-btn:not(.active):hover{color:var(--accent);background:rgba(193,127,90,0.08);}
   .tab-panel{display:none;}.tab-panel.active{display:block;}
 
   /* USERS */
@@ -60,7 +73,7 @@
   .user-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
   .user-section-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);}
   .users-list{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
-  .user-chip{display:flex;align-items:center;gap:6px;padding:6px 14px 6px 10px;border-radius:50px;border:1.5px solid #e0d4cc;background:var(--bg);cursor:pointer;transition:all 0.2s;font-size:0.85rem;font-weight:700;color:var(--muted);user-select:none;}
+  .user-chip{display:flex;align-items:center;gap:6px;padding:6px 14px 6px 10px;border-radius:50px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;transition:all 0.2s;font-size:0.85rem;font-weight:700;color:var(--muted);user-select:none;}
   .user-chip:hover{border-color:var(--accent);color:var(--accent);}
   .user-chip.active{background:var(--accent);border-color:var(--accent);color:white;box-shadow:0 2px 10px rgba(193,127,90,0.35);}
   .user-chip .user-avatar{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0;background:var(--card-back);color:var(--muted);}
@@ -70,19 +83,32 @@
   .user-chip:not(.active) .delete-user{color:var(--muted);}
   .user-chip:not(.active):hover .delete-user{opacity:1;}
 
+  /* SUBJECT TAG PANEL */
+  .subject-panel{max-width:600px;margin:0 auto 16px;background:var(--surface);border-radius:16px;padding:12px 16px;box-shadow:0 2px 12px var(--shadow);}
+  .subject-panel-header{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:8px;}
+  .subject-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .subject-input{flex:1;min-width:160px;padding:7px 14px;border-radius:50px;border:1.5px solid var(--border);
+    font-family:'Lato',sans-serif;font-size:0.85rem;background:var(--bg);color:var(--text);outline:none;transition:border-color 0.2s;}
+  .subject-input:focus{border-color:var(--accent);}
+  .subject-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+  .subject-recent-chip{padding:4px 11px;border-radius:50px;border:1.5px solid var(--border);background:var(--bg);
+    font-size:0.75rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all 0.16s;white-space:nowrap;}
+  .subject-recent-chip:hover{border-color:var(--accent);color:var(--accent);}
+  .subject-recent-chip.selected{background:var(--accent);border-color:var(--accent);color:white;}
+
   /* MULTIPLIER */
   .multiplier-section{max-width:600px;margin:0 auto 20px;background:var(--surface);border-radius:16px;padding:14px 16px;box-shadow:0 2px 12px var(--shadow);}
   .multiplier-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
   .multiplier-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);}
   .multiplier-value-display{font-family:'Playfair Display',serif;font-size:1rem;color:var(--accent);font-weight:700;}
-  .multiplier-row{display:flex;align-items:center;gap:12px;}
+  .multiplier-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
   .multiplier-presets{display:flex;gap:6px;flex-wrap:wrap;}
-  .mult-chip{padding:5px 13px;border-radius:50px;border:1.5px solid #e0d4cc;background:var(--bg);font-size:0.8rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all 0.18s;}
+  .mult-chip{padding:5px 13px;border-radius:50px;border:1.5px solid var(--border);background:var(--bg);font-size:0.8rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all 0.18s;}
   .mult-chip:hover{border-color:var(--accent);color:var(--accent);}
   .mult-chip.active{background:var(--accent);border-color:var(--accent);color:white;box-shadow:0 2px 8px rgba(193,127,90,0.3);}
   .multiplier-custom{display:flex;align-items:center;gap:6px;margin-left:auto;}
   .multiplier-custom label{font-size:0.78rem;color:var(--muted);white-space:nowrap;}
-  .multiplier-custom input{width:62px;padding:5px 10px;border-radius:50px;border:1.5px solid #d8cec6;font-family:'Lato',sans-serif;font-size:0.88rem;background:var(--bg);color:var(--text);outline:none;text-align:center;transition:border-color 0.2s;}
+  .multiplier-custom input{width:62px;padding:5px 10px;border-radius:50px;border:1.5px solid var(--border);font-family:'Lato',sans-serif;font-size:0.88rem;background:var(--bg);color:var(--text);outline:none;text-align:center;transition:border-color 0.2s;}
   .multiplier-custom input:focus{border-color:var(--accent);}
   .multiplier-desc{margin-top:8px;font-size:0.78rem;color:var(--muted);}
 
@@ -100,13 +126,13 @@
   .toggle-label{font-size:0.82rem;color:var(--text);font-weight:700;}
   .break-options{margin-top:12px;display:none;gap:14px;flex-wrap:wrap;align-items:center;}
   .break-options.visible{display:flex;}
-  .break-mode-chip{padding:5px 13px;border-radius:50px;border:1.5px solid #e0d4cc;background:var(--bg);font-size:0.8rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all 0.18s;}
+  .break-mode-chip{padding:5px 13px;border-radius:50px;border:1.5px solid var(--border);background:var(--bg);font-size:0.8rem;font-weight:700;color:var(--muted);cursor:pointer;transition:all 0.18s;}
   .break-mode-chip:hover{border-color:var(--accent2);color:var(--accent2);}
   .break-mode-chip.active{background:var(--accent2);border-color:var(--accent2);color:white;box-shadow:0 2px 8px rgba(122,158,135,0.3);}
   .break-custom-wrap{display:none;align-items:center;gap:6px;}
   .break-custom-wrap.visible{display:flex;}
   .break-custom-wrap label{font-size:0.78rem;color:var(--muted);white-space:nowrap;}
-  .break-custom-wrap input{width:62px;padding:5px 10px;border-radius:50px;border:1.5px solid #d8cec6;font-family:'Lato',sans-serif;font-size:0.88rem;background:var(--bg);color:var(--text);outline:none;text-align:center;transition:border-color 0.2s;}
+  .break-custom-wrap input{width:62px;padding:5px 10px;border-radius:50px;border:1.5px solid var(--border);font-family:'Lato',sans-serif;font-size:0.88rem;background:var(--bg);color:var(--text);outline:none;text-align:center;transition:border-color 0.2s;}
   .break-custom-wrap input:focus{border-color:var(--accent2);}
   .break-desc{font-size:0.78rem;color:var(--muted);margin-top:8px;}
 
@@ -114,7 +140,7 @@
   .timer-section{background:var(--surface);border-radius:20px;padding:28px 24px 24px;text-align:center;box-shadow:0 4px 24px var(--shadow);max-width:480px;margin:0 auto 28px;}
   .current-user-banner{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:14px;font-weight:700;}
   .current-card-display{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px;}
-  .drawn-card{width:64px;height:90px;border-radius:8px;background:var(--surface);border:2px solid #e0d4cc;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;box-shadow:0 2px 12px var(--shadow);transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);position:relative;}
+  .drawn-card{width:64px;height:90px;border-radius:8px;background:var(--surface);border:2px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;box-shadow:0 2px 12px var(--shadow);transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);}
   .drawn-card.red{color:var(--red);}.drawn-card.black{color:var(--black);}
   .drawn-card.empty{color:var(--muted);font-size:0.8rem;font-family:'Lato',sans-serif;font-weight:300;background:var(--card-back);}
   .timer-display{font-family:'Playfair Display',serif;font-size:4.5rem;font-weight:700;letter-spacing:2px;color:var(--text);line-height:1;margin-bottom:8px;transition:color 0.3s;}
@@ -122,25 +148,23 @@
   .timer-display.break-running{color:var(--pomo-long);}
   .timer-label{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:20px;}
   .timer-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
-
-  /* BREAK PHASE INDICATOR */
   .break-phase-banner{display:none;background:linear-gradient(135deg,var(--accent2),var(--pomo-long));color:white;border-radius:12px;padding:10px 16px;margin-bottom:16px;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;text-align:center;}
   .break-phase-banner.visible{display:block;}
 
+  /* BUTTONS */
   .btn{padding:10px 22px;border:none;border-radius:50px;font-family:'Lato',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px;}
   .btn:active{transform:scale(0.96);}
   .btn-primary{background:var(--accent);color:white;box-shadow:0 3px 12px rgba(193,127,90,0.35);}
   .btn-primary:hover{background:#a86d48;}
   .btn-secondary{background:var(--accent2);color:white;box-shadow:0 3px 12px rgba(122,158,135,0.35);}
   .btn-secondary:hover{background:#6a8e75;}
-  .btn-break{background:var(--pomo-long);color:white;box-shadow:0 3px 12px rgba(90,127,160,0.3);}
-  .btn-break:hover{background:#4a6f90;}
-  .btn-ghost{background:transparent;color:var(--muted);border:1.5px solid #d8cec6;}
-  .btn-ghost:hover{background:#f0ebe5;color:var(--text);}
+  .btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--border);}
+  .btn-ghost:hover{background:var(--card-back);color:var(--text);}
   .btn-sm{padding:6px 14px;font-size:0.8rem;}
   .btn:disabled{background:var(--disabled);color:var(--disabled-text);cursor:not-allowed;box-shadow:none;}
 
-  .progress-bar-wrap{height:6px;background:#ece5de;border-radius:99px;margin:16px 0 0;overflow:hidden;}
+  /* PROGRESS BAR */
+  .progress-bar-wrap{height:6px;background:var(--card-back);border-radius:99px;margin:16px 0 0;overflow:hidden;}
   .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:99px;width:100%;transition:width 1s linear;}
   .progress-bar-fill.break-fill{background:linear-gradient(90deg,var(--pomo-long),var(--accent2));}
 
@@ -148,22 +172,23 @@
   .deck-section{max-width:600px;margin:0 auto;}
   .deck-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:0 4px;}
   .deck-title{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--text);}
-  .deck-count{font-size:0.85rem;color:var(--muted);background:var(--surface);padding:4px 12px;border-radius:99px;border:1px solid #e0d4cc;}
+  .deck-count{font-size:0.85rem;color:var(--muted);background:var(--surface);padding:4px 12px;border-radius:99px;border:1px solid var(--border);}
   .suits-container{display:flex;flex-direction:column;gap:12px;padding-bottom:12px;}
   .suit-row{background:var(--surface);border-radius:14px;padding:14px 14px 10px;box-shadow:0 2px 12px var(--shadow);}
   .suit-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
   .suit-label .suit-icon{font-size:1rem;}
   .suit-label.red .suit-icon{color:var(--red);}.suit-label.black .suit-icon{color:var(--black);}
-  .cards-grid{display:flex;flex-wrap:wrap;gap:6px;min-height:70px;justify-content:flex-start;}
-  .mini-card{width:38px;height:54px;border-radius:6px;border:1.5px solid #e0d4cc;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;user-select:none;}
+  .cards-grid{display:flex;flex-wrap:wrap;gap:6px;min-height:70px;}
+  .mini-card{width:38px;height:54px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;user-select:none;}
   .mini-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px var(--shadow);}
   .mini-card.red{color:var(--red);}.mini-card.black{color:var(--black);}
   .mini-card.disabled{background:var(--card-back);color:var(--disabled-text);border-color:var(--disabled);text-decoration:line-through;opacity:0.5;transform:none;}
-  .mini-card.cleared{background:var(--card-back);color:var(--disabled-text);border-color:var(--disabled);opacity:0.35;transform:none;text-decoration:none;border-style:dashed;}
+  .mini-card.cleared{background:var(--card-back);color:var(--disabled-text);border-color:var(--disabled);opacity:0.35;transform:none;border-style:dashed;}
   .mini-card .mini-suit{font-size:0.55rem;}
   .mini-card.active-card{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent),0 4px 14px rgba(193,127,90,0.3);}
   .reset-wrap{text-align:center;margin-top:16px;}
 
+  /* ANIMATIONS */
   @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
   .pop{animation:pop 0.3s ease;}
   @keyframes pulse-red{0%,100%{color:var(--red)}50%{color:#e87070}}
@@ -174,25 +199,31 @@
   /* FOOTER */
   .site-footer{max-width:600px;margin:40px auto 0;padding:20px 16px;text-align:center;border-top:1px solid var(--border);}
   .site-footer p{font-size:0.78rem;color:var(--muted);letter-spacing:0.5px;}
-  .site-footer a{color:var(--accent);text-decoration:none;font-weight:700;transition:opacity 0.2s;}
+  .site-footer a{color:var(--accent);text-decoration:none;font-weight:700;}
   .site-footer a:hover{opacity:0.75;}
 
   /* POMODORO */
   .pomo-container{max-width:480px;margin:0 auto;}
-  .pomo-mode-tabs{display:flex;gap:0;background:var(--surface);border-radius:14px;padding:5px;box-shadow:0 2px 12px var(--shadow);margin-bottom:20px;}
+  .pomo-subject-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+  .pomo-subject-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);white-space:nowrap;}
+  .pomo-subject-input{flex:1;min-width:150px;padding:7px 14px;border-radius:50px;border:1.5px solid var(--border);font-family:'Lato',sans-serif;font-size:0.85rem;background:var(--surface);color:var(--text);outline:none;transition:border-color 0.2s;}
+  .pomo-subject-input:focus{border-color:var(--pomo-work);}
+  .pomo-subject-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+
+  .pomo-mode-tabs{display:flex;background:var(--surface);border-radius:14px;padding:5px;box-shadow:0 2px 12px var(--shadow);margin-bottom:20px;}
   .pomo-mode-btn{flex:1;padding:9px 0;border:none;background:transparent;font-family:'Lato',sans-serif;font-size:0.82rem;font-weight:700;color:var(--muted);border-radius:10px;cursor:pointer;transition:all 0.22s;letter-spacing:0.3px;}
   .pomo-mode-btn.active{color:white;}
   .pomo-mode-btn.work.active{background:var(--pomo-work);box-shadow:0 2px 10px rgba(193,127,90,0.35);}
   .pomo-mode-btn.short.active{background:var(--pomo-short);box-shadow:0 2px 10px rgba(122,158,135,0.35);}
   .pomo-mode-btn.long.active{background:var(--pomo-long);box-shadow:0 2px 10px rgba(90,127,160,0.35);}
-  .pomo-mode-btn:not(.active):hover{background:#f5ede6;color:var(--text);}
-  .pomo-card{background:var(--surface);border-radius:20px;padding:28px 24px 24px;text-align:center;box-shadow:0 4px 24px var(--shadow);margin-bottom:20px;transition:box-shadow 0.3s;}
+  .pomo-mode-btn:not(.active):hover{background:var(--card-back);color:var(--text);}
+  .pomo-card{background:var(--surface);border-radius:20px;padding:28px 24px 24px;text-align:center;box-shadow:0 4px 24px var(--shadow);margin-bottom:20px;}
   .pomo-session-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;font-weight:700;}
   .pomo-session-label.work{color:var(--pomo-work);}.pomo-session-label.short{color:var(--pomo-short);}.pomo-session-label.long{color:var(--pomo-long);}
   .pomo-sublabel{font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:18px;}
   .pomo-progress-ring{margin:0 auto 18px;position:relative;width:160px;height:160px;display:flex;align-items:center;justify-content:center;}
   .pomo-ring-svg{position:absolute;inset:0;transform:rotate(-90deg);}
-  .pomo-ring-bg{fill:none;stroke:#ece5de;stroke-width:7;}
+  .pomo-ring-bg{fill:none;stroke:var(--card-back);stroke-width:7;}
   .pomo-ring-fill{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke 0.4s;}
   .pomo-ring-inner{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--text);}
   .pomo-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
@@ -207,44 +238,86 @@
   .pomo-settings-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;}
   .pomo-setting{display:flex;flex-direction:column;gap:5px;}
   .pomo-setting label{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-  .pomo-setting input{padding:7px 10px;border-radius:10px;border:1.5px solid #d8cec6;font-family:'Lato',sans-serif;font-size:0.9rem;background:var(--bg);color:var(--text);outline:none;text-align:center;width:100%;transition:border-color 0.2s;}
+  .pomo-setting input{padding:7px 10px;border-radius:10px;border:1.5px solid var(--border);font-family:'Lato',sans-serif;font-size:0.9rem;background:var(--bg);color:var(--text);outline:none;text-align:center;width:100%;transition:border-color 0.2s;}
   .pomo-setting input:focus{border-color:var(--accent);}
   .pomo-setting .setting-unit{font-size:0.7rem;color:var(--muted);text-align:center;}
+
+  /* POMO STATS PANEL */
   .pomo-stats{background:var(--surface);border-radius:16px;padding:16px 18px;box-shadow:0 2px 12px var(--shadow);}
-  .pomo-stats-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:12px;}
-  .pomo-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .pomo-stats-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .pomo-stats-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);}
+  .stats-period-toggle{display:flex;background:var(--bg);border-radius:50px;padding:3px;gap:2px;}
+  .period-btn{padding:3px 11px;border:none;border-radius:50px;font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;color:var(--muted);background:transparent;cursor:pointer;transition:all 0.16s;}
+  .period-btn.active{background:var(--accent);color:white;}
+  .pomo-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
   .pomo-stat{text-align:center;padding:10px 6px;background:var(--bg);border-radius:12px;}
   .pomo-stat-num{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--accent);line-height:1;}
   .pomo-stat-lbl{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
   .pomo-dots{display:flex;gap:6px;justify-content:center;margin-bottom:6px;}
-  .pomo-dot{width:10px;height:10px;border-radius:50%;background:#e0d4cc;transition:background 0.3s;}
+  .pomo-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:background 0.3s;}
   .pomo-dot.done{background:var(--pomo-work);}.pomo-dot.current{background:var(--pomo-short);}
 
+  /* SESSION HISTORY (shared styles) */
+  .history-section-title{font-size:0.72rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:8px;}
+  .history-list{display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto;padding-right:2px;}
+  .history-list::-webkit-scrollbar{width:3px;}
+  .history-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+  .history-item{display:flex;align-items:center;justify-content:space-between;padding:7px 11px;background:var(--bg);border-radius:10px;}
+  .history-item-left{display:flex;flex-direction:column;gap:1px;}
+  .history-item-subject{font-size:0.83rem;font-weight:700;color:var(--text);}
+  .history-item-date{font-size:0.7rem;color:var(--muted);}
+  .history-item-right{display:flex;align-items:center;gap:6px;}
+  .history-item-mins{font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--accent);}
+  .history-item-mins-lbl{font-size:0.65rem;color:var(--muted);}
+  .history-tag{background:var(--accent);color:white;font-size:0.6rem;font-weight:700;padding:2px 7px;border-radius:99px;letter-spacing:0.5px;}
+  .history-tag.green{background:var(--accent2);}
+  .history-empty{font-size:0.8rem;color:var(--muted);text-align:center;padding:16px 0;font-style:italic;}
+
   /* MODALS */
-  .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(58,46,40,0.35);backdrop-filter:blur(3px);z-index:100;align-items:center;justify-content:center;}
+  .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(58,46,40,0.4);backdrop-filter:blur(3px);z-index:100;align-items:center;justify-content:center;padding:16px;}
   .modal-backdrop.visible{display:flex;}
-  .modal{background:var(--surface);border-radius:20px;padding:28px 28px 24px;max-width:340px;width:90%;box-shadow:0 12px 40px rgba(58,46,40,0.25);animation:slideUp 0.2s ease;}
-  .modal-lg{max-width:520px;}
+  .modal{background:var(--surface);border-radius:20px;padding:28px 28px 24px;max-width:340px;width:100%;box-shadow:0 12px 40px rgba(58,46,40,0.25);animation:slideUp 0.2s ease;}
+  .modal-lg{max-width:480px;}
+  .modal-xl{max-width:560px;}
   @keyframes slideUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
   .modal h2{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:6px;}
-  .modal p{color:var(--muted);font-size:0.85rem;margin-bottom:18px;}
-  .modal input{width:100%;padding:10px 16px;border-radius:50px;border:1.5px solid #d8cec6;font-family:'Lato',sans-serif;font-size:0.95rem;background:var(--bg);color:var(--text);outline:none;margin-bottom:14px;transition:border-color 0.2s;}
-  .modal input:focus{border-color:var(--accent);}
+  .modal > p{color:var(--muted);font-size:0.85rem;margin-bottom:18px;}
+  .modal input[type=text]{width:100%;padding:10px 16px;border-radius:50px;border:1.5px solid var(--border);font-family:'Lato',sans-serif;font-size:0.95rem;background:var(--bg);color:var(--text);outline:none;margin-bottom:14px;transition:border-color 0.2s;}
+  .modal input[type=text]:focus{border-color:var(--accent);}
   .modal-actions{display:flex;gap:8px;justify-content:flex-end;}
+  .modal-scroll{max-height:70vh;overflow-y:auto;padding-right:6px;}
+  .modal-scroll::-webkit-scrollbar{width:4px;}
+  .modal-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
 
-  /* HELP MODAL CONTENT */
+  /* TROPHY MODAL */
+  .trophy-section{margin-bottom:20px;}
+  .trophy-section-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--accent);margin-bottom:10px;}
+  .trophy-kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px;}
+  .trophy-kpi{text-align:center;padding:10px 6px;background:var(--bg);border-radius:12px;}
+  .trophy-kpi-num{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--accent);line-height:1;}
+  .trophy-kpi-lbl{font-size:0.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
+
+  /* DECK PROGRESS BAR */
+  .deck-progress-outer{height:12px;background:var(--bg);border-radius:99px;overflow:hidden;display:flex;margin-bottom:6px;}
+  .dp-bar-studied{background:var(--accent2);transition:width 0.5s;}
+  .dp-bar-cleared{background:var(--disabled);transition:width 0.5s;}
+  .dp-bar-remaining{flex:1;background:transparent;}
+  .dp-legend{display:flex;gap:14px;flex-wrap:wrap;}
+  .dp-legend-item{display:flex;align-items:center;gap:5px;font-size:0.71rem;color:var(--muted);}
+  .dp-dot{width:8px;height:8px;border-radius:50%;}
+  .modal-divider{border:none;border-top:1px solid var(--border);margin:16px 0;}
+
+  /* HELP MODAL */
   .help-section{margin-bottom:16px;}
-  .help-section h3{font-family:'Playfair Display',serif;font-size:1rem;color:var(--accent);margin-bottom:6px;}
-  .help-section p,.help-section li{font-size:0.83rem;color:var(--muted);line-height:1.6;}
+  .help-section h3{font-family:'Playfair Display',serif;font-size:0.98rem;color:var(--accent);margin-bottom:6px;}
+  .help-section p,.help-section li{font-size:0.82rem;color:var(--muted);line-height:1.65;}
   .help-section ul{padding-left:16px;margin-top:4px;}
   .help-section li{margin-bottom:3px;}
-  .help-divider{border:none;border-top:1px solid var(--border);margin:14px 0;}
-  .help-scroll{max-height:65vh;overflow-y:auto;padding-right:4px;}
-  .help-scroll::-webkit-scrollbar{width:4px;}
-  .help-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
-  .help-tag{display:inline-block;background:var(--accent);color:white;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:1px;margin-left:6px;vertical-align:middle;}
-  .help-tag.green{background:var(--accent2);}
-  .help-tag.blue{background:var(--pomo-long);}
+  .help-divider{border:none;border-top:1px solid var(--border);margin:13px 0;}
+  .help-badge{display:inline-block;color:white;font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:99px;text-transform:uppercase;letter-spacing:1px;margin-left:5px;vertical-align:middle;}
+  .help-badge.orange{background:var(--accent);}
+  .help-badge.green{background:var(--accent2);}
+  .help-badge.blue{background:var(--pomo-long);}
 </style>
 </head>
 <body>
@@ -252,8 +325,8 @@
 <h1>Counting Cards</h1>
 <p class="subtitle">Draw a card · Study for the Time · Get A's on Exams</p>
 
-<!-- BADGE -->
-<div class="deck-completions-badge" id="completionsBadge" title="Total deck completions for the active user">
+<!-- TROPHY BADGE (click → progress modal) -->
+<div class="deck-completions-badge" id="completionsBadge" title="Click to view your progress">
   <span class="badge-icon">🏆</span>
   <div class="badge-content">
     <span class="badge-num" id="completionsCount">0</span>
@@ -261,10 +334,19 @@
   </div>
 </div>
 
-<!-- HELP BUTTON -->
+<!-- STREAK BADGE -->
+<div class="streak-badge" id="streakBadge" title="Study streak — complete at least 1 card per day to keep it going!">
+  <span style="font-size:1rem">🔥</span>
+  <div class="badge-content">
+    <span class="streak-num" id="streakCount">0</span>
+    <span class="streak-sub">Day Streak</span>
+  </div>
+</div>
+
+<!-- HELP -->
 <button class="help-btn" id="helpBtn" title="How does this work?">?</button>
 
-<!-- TABS -->
+<!-- MAIN TABS -->
 <div class="tabs-nav">
   <button class="tab-btn active" data-tab="deck">🃏 Deck Study</button>
   <button class="tab-btn" data-tab="pomo">🍅 Pomodoro</button>
@@ -278,9 +360,10 @@
   <button class="theme-btn" data-theme="forest"></button>
 </div>
 
-<!-- ══ DECK STUDY TAB ══ -->
+<!-- ═══════════════ DECK STUDY TAB ═══════════════ -->
 <div class="tab-panel active" id="tab-deck">
 
+  <!-- USERS -->
   <div class="user-section">
     <div class="user-section-header">
       <span class="user-section-title">👤 Studying Now</span>
@@ -289,6 +372,16 @@
     <div class="users-list" id="usersList"></div>
   </div>
 
+  <!-- SUBJECT TAG — DECK -->
+  <div class="subject-panel">
+    <div class="subject-panel-header">📚 Subject / Topic</div>
+    <div class="subject-row">
+      <input class="subject-input" id="deckSubjectInput" placeholder="e.g. Organic Chemistry, Calculus…" maxlength="40">
+    </div>
+    <div class="subject-chips" id="deckSubjectChips"></div>
+  </div>
+
+  <!-- MULTIPLIER -->
   <div class="multiplier-section">
     <div class="multiplier-header">
       <span class="multiplier-title">⏱ Study Time per Card Value</span>
@@ -323,23 +416,22 @@
       <span class="toggle-label">Auto-break after each card</span>
     </div>
     <div class="break-options" id="breakOptions">
-      <div class="break-mode-chip active" data-mode="half">½ x card value * ½ × multiplier</div>
+      <div class="break-mode-chip active" data-mode="half">½ × card value × ½ multiplier</div>
       <div class="break-mode-chip" data-mode="custom">Custom</div>
       <div class="break-custom-wrap" id="breakCustomWrap">
         <label for="breakCustomMin">Minutes:</label>
         <input type="number" id="breakCustomMin" min="1" max="120" value="5" placeholder="5">
       </div>
     </div>
-    <div class="break-desc" id="breakDesc" style="display:none;">Break disabled</div>
+    <div class="break-desc" id="breakDesc" style="display:none;"></div>
   </div>
 
+  <!-- TIMER -->
   <div class="timer-section">
     <div class="current-user-banner" id="currentUserBanner">— Select a user —</div>
     <div class="break-phase-banner" id="breakPhaseBanner">☕ Break Time — You've earned it!</div>
     <div class="current-card-display">
-      <div class="drawn-card empty" id="drawnCard">
-        <span>draw</span><span>a card</span>
-      </div>
+      <div class="drawn-card empty" id="drawnCard"><span>draw</span><span>a card</span></div>
       <div>
         <div class="timer-display" id="timerDisplay">00:00</div>
         <div class="timer-label" id="timerLabel">Draw a card to start</div>
@@ -355,6 +447,7 @@
     </div>
   </div>
 
+  <!-- CARD GRID -->
   <div class="deck-section">
     <div class="deck-header">
       <span class="deck-title">Your Deck</span>
@@ -367,21 +460,35 @@
   </div>
 </div>
 
-<!-- ══ POMODORO TAB ══ -->
+<!-- ═══════════════ POMODORO TAB ═══════════════ -->
 <div class="tab-panel" id="tab-pomo">
   <div class="pomo-container">
+
+<!-- SUBJECT TAG — POMO -->
+<div class="subject-panel">
+  <div class="subject-panel-header">📚 Subject / Topic</div>
+  <div class="pomo-subject-bar">
+    <input class="pomo-subject-input" id="pomoSubjectInput" placeholder="e.g. Biology, History…" maxlength="40">
+  </div>
+  <div class="pomo-subject-chips" id="pomoSubjectChips"></div>
+</div>
+
+
+
     <div class="pomo-mode-tabs">
       <button class="pomo-mode-btn work active" data-mode="work">🍅 Work</button>
       <button class="pomo-mode-btn short" data-mode="short">☕ Short Break</button>
       <button class="pomo-mode-btn long" data-mode="long">🌿 Long Break</button>
     </div>
     <div class="pomo-dots" id="pomoDots"></div>
+
     <div class="pomo-card">
       <div class="pomo-session-label work" id="pomoSessionLabel">Focus Time</div>
       <div class="pomo-progress-ring">
         <svg class="pomo-ring-svg" viewBox="0 0 160 160">
           <circle class="pomo-ring-bg" cx="80" cy="80" r="68"/>
-          <circle class="pomo-ring-fill" id="pomoRingFill" cx="80" cy="80" r="68" stroke="var(--pomo-work)" stroke-dasharray="427.3" stroke-dashoffset="0"/>
+          <circle class="pomo-ring-fill" id="pomoRingFill" cx="80" cy="80" r="68"
+            stroke="var(--pomo-work)" stroke-dasharray="427.3" stroke-dashoffset="0"/>
         </svg>
         <div class="pomo-ring-inner" id="pomoTimerInner">25:00</div>
       </div>
@@ -392,6 +499,7 @@
         <button class="btn btn-ghost btn-sm" id="pomoSkipBtn">⏭ Skip</button>
       </div>
     </div>
+
     <div class="pomo-settings">
       <div class="pomo-settings-title">⚙️ Session Durations</div>
       <div class="pomo-settings-grid">
@@ -408,23 +516,33 @@
         <button class="btn btn-ghost btn-sm" id="pomoApplyBtn">Apply</button>
       </div>
     </div>
+
+    <!-- STATS: Today / All Time toggle + subject history -->
     <div class="pomo-stats">
-      <div class="pomo-stats-title">📊 Today's Stats</div>
+      <div class="pomo-stats-header">
+        <span class="pomo-stats-title">📊 Stats</span>
+        <div class="stats-period-toggle">
+          <button class="period-btn active" id="statsTodayBtn">Today</button>
+          <button class="period-btn" id="statsAllTimeBtn">All Time</button>
+        </div>
+      </div>
       <div class="pomo-stats-grid">
         <div class="pomo-stat"><div class="pomo-stat-num" id="statPomos">0</div><div class="pomo-stat-lbl">Pomodoros</div></div>
         <div class="pomo-stat"><div class="pomo-stat-num" id="statFocusMin">0</div><div class="pomo-stat-lbl">Focus min</div></div>
         <div class="pomo-stat"><div class="pomo-stat-num" id="statBreakMin">0</div><div class="pomo-stat-lbl">Break min</div></div>
       </div>
+      <div class="history-section-title">What you studied</div>
+      <div class="history-list" id="pomoHistoryList"></div>
     </div>
   </div>
 </div>
 
-<!-- ADD USER MODAL -->
+<!-- ═══════════════ ADD USER MODAL ═══════════════ -->
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal">
     <h2>Add a New User</h2>
     <p>Each user gets their own independent deck and progress.</p>
-    <input type="text" id="newUserInput" placeholder="Enter name..." maxlength="24"/>
+    <input type="text" id="newUserInput" placeholder="Enter name…" maxlength="24"/>
     <div class="modal-actions">
       <button class="btn btn-ghost btn-sm" id="modalCancelBtn">Cancel</button>
       <button class="btn btn-primary btn-sm" id="modalConfirmBtn">Add User</button>
@@ -432,71 +550,136 @@
   </div>
 </div>
 
-<!-- HELP MODAL -->
+<!-- ═══════════════ TROPHY / PROGRESS MODAL ═══════════════ -->
+<div class="modal-backdrop" id="trophyModalBackdrop">
+  <div class="modal modal-xl">
+    <h2>🏆 Your Progress</h2>
+    <div class="modal-scroll">
+
+      <!-- KPIs -->
+      <div class="trophy-section">
+        <div class="trophy-kpi-grid">
+          <div class="trophy-kpi">
+            <div class="trophy-kpi-num" id="trophyDecks">0</div>
+            <div class="trophy-kpi-lbl">Decks Done</div>
+          </div>
+          <div class="trophy-kpi">
+            <div class="trophy-kpi-num" id="trophyCards">0</div>
+            <div class="trophy-kpi-lbl">Cards Studied</div>
+          </div>
+          <div class="trophy-kpi">
+            <div class="trophy-kpi-num" id="trophyStreak">0 🔥</div>
+            <div class="trophy-kpi-lbl">Day Streak</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="modal-divider">
+
+      <!-- DECK PROGRESS BAR -->
+      <div class="trophy-section">
+        <div class="trophy-section-title">Current Deck Progress</div>
+        <div style="display:flex;justify-content:space-between;font-size:0.74rem;color:var(--muted);margin-bottom:6px;">
+          <span id="dpLabel1">0 studied</span>
+          <span id="dpLabel2">54 remaining</span>
+        </div>
+        <div class="deck-progress-outer">
+          <div class="dp-bar-studied" id="dpStudied" style="width:0%"></div>
+          <div class="dp-bar-cleared" id="dpCleared" style="width:0%"></div>
+          <div class="dp-bar-remaining"></div>
+        </div>
+        <div class="dp-legend" style="margin-top:6px;">
+          <div class="dp-legend-item"><div class="dp-dot" style="background:var(--accent2)"></div>Studied</div>
+          <div class="dp-legend-item"><div class="dp-dot" style="background:var(--disabled)"></div>Cleared / Skipped</div>
+          <div class="dp-legend-item"><div class="dp-dot" style="background:var(--border)"></div>Remaining</div>
+        </div>
+      </div>
+
+      <hr class="modal-divider">
+
+      <!-- DECK SESSION HISTORY -->
+      <div class="trophy-section">
+        <div class="trophy-section-title">Session History</div>
+        <div class="history-list" id="deckHistoryList"></div>
+      </div>
+
+    </div>
+    <div class="modal-actions" style="margin-top:16px;">
+      <button class="btn btn-primary btn-sm" id="trophyCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ HELP MODAL ═══════════════ -->
 <div class="modal-backdrop" id="helpModalBackdrop">
   <div class="modal modal-lg">
     <h2>How Counting Cards Works</h2>
-    <div class="help-scroll">
+    <div class="modal-scroll">
 
       <div class="help-section">
         <h3>🧠 The Core Concept</h3>
-        <p>Counting Cards turns a standard deck of 54 cards into a structured study system. Each card represents a chunk of focused study time. You draw a card, study for that duration, then draw the next. Working through the full deck ensures you tackle material in varied, unpredictable sessions rather than grinding the same topic endlessly.</p>
+        <p>Counting Cards turns a standard 54-card deck into a structured study system. Each card represents a focused study block. Draw a card, study for that duration, then draw the next. The randomness keeps sessions varied and stops you grinding the same topic for hours.</p>
       </div>
       <hr class="help-divider">
 
       <div class="help-section">
         <h3>🃏 Card Values &amp; Time</h3>
-        <p>Card time = card value × your chosen multiplier. With the default ×10:</p>
+        <p>Time = card value × multiplier. At the default ×10: Ace = 10 min, 2–10 = face × 10, J/Q/K = 100 min, Joker = 120 min always. Adjust the multiplier to fit your schedule.</p>
+      </div>
+      <hr class="help-divider">
+
+      <div class="help-section">
+        <h3>📚 Subject Tagging <span class="help-badge orange">New</span></h3>
+        <p>Type a subject before you start studying — Chemistry, Calculus, whatever you're working on. When your timer completes, that session is automatically saved to your history with the subject and duration. Your six most recent subjects appear as quick-tap chips so you don't have to retype them. You can see your full deck history in the 🏆 trophy panel, and your Pomodoro history in the stats section of the Pomodoro tab.</p>
+      </div>
+      <hr class="help-divider">
+
+      <div class="help-section">
+        <h3>🔥 Study Streak <span class="help-badge green">New</span></h3>
+        <p>Complete at least one card per day (timer runs to zero naturally — clearing doesn't count) and your streak grows. Miss a day and it resets. Your streak lives under the trophy badge in the top-left corner.</p>
+      </div>
+      <hr class="help-divider">
+
+      <div class="help-section">
+        <h3>🏆 Progress Panel <span class="help-badge green">New</span></h3>
+        <p>Click the trophy badge to open a detailed view: deck completions, total cards studied, your streak, a live colour-coded progress bar for the current deck, and your full session history.</p>
+      </div>
+      <hr class="help-divider">
+
+      <div class="help-section">
+        <h3>☕ Post-Card Breaks</h3>
+        <p>Toggle on an automatic break after each card. Default = ½ card value × ½ multiplier (proportional to how long you just studied). Or set a fixed custom duration. The break timer is blue so you always know which phase you're in.</p>
+      </div>
+      <hr class="help-divider">
+
+      <div class="help-section">
+        <h3>🔔 Notifications <span class="help-badge blue">New</span></h3>
+        <p>The app asks for notification permission on first load. When a timer finishes — even if you've switched tabs or minimised the window — you'll get a desktop notification so you never miss it.</p>
+      </div>
+      <hr class="help-divider">
+
+      <div class="help-section">
+        <h3>⏱ Background Timers</h3>
+        <p>All timers use real wall-clock time internally. Minimising or switching tabs never loses a single second.</p>
+      </div>
+      <hr class="help-divider">
+
+      <div class="help-section">
+        <h3>✖ Clear vs ↺ Reset</h3>
         <ul>
-          <li><strong>Ace</strong> → 1 × 10 = <strong>10 minutes</strong></li>
-          <li><strong>2–10</strong> → face value × multiplier (e.g. 7 → 70 min)</li>
-          <li><strong>J / Q / K</strong> → 10 × multiplier = <strong>100 minutes</strong></li>
-          <li><strong>Joker</strong> → always <strong>120 minutes</strong> (2 hours)</li>
+          <li><strong>Reset</strong> — restarts the timer for the current card. Card stays marked as studied.</li>
+          <li><strong>Clear</strong> — removes the card from the active slot and marks it as skipped (dashed border). Skipped cards don't count toward deck completion or the streak.</li>
         </ul>
-        <p style="margin-top:6px;">Adjust the multiplier to fit your schedule from ×5 for quick sessions, to ×15 for deep work days.</p>
-      </div>
-      <hr class="help-divider">
-
-      <div class="help-section">
-        <h3>☕ Post-Card Breaks </h3>
-        <p>After each study session (when the timer ends), you can automatically get a break. By default the break = ½ x card value * ½ × multiplier — so a 10-card at ×10 gives a 100-min study block and a 25-min break. You can also set a fixed custom break length.</p>
-      </div>
-      <hr class="help-divider">
-
-      <div class="help-section">
-        <h3>🏆 Deck Completions</h3>
-        <p>Complete all 54 cards (draw and study each one) and your trophy counter increments. Cleared cards don't count, only studied ones do. This is your long-term progress metric across multiple study sessions.</p>
-      </div>
-      <hr class="help-divider">
-
-      <div class="help-section">
-        <h3>✖ Clear Card vs. ↺ Reset</h3>
-        <ul>
-          <li><strong>Reset</strong> — restarts the timer for the current card. The card stays as "studied."</li>
-          <li><strong>Clear Card</strong> — removes the card from the active slot and marks it as skipped (dashed border in the deck). It does <em>not</em> count toward completion. Use it when you want to skip a card without penalty.</li>
-        </ul>
-      </div>
-      <hr class="help-divider">
-
-      <div class="help-section">
-        <h3>⏱ Background Timers </h3>
-        <p>All timers continue running even if you minimize the browser, switch tabs, or lock your screen. The app tracks real wall-clock time so nothing is lost when you come back.</p>
-      </div>
-      <hr class="help-divider">
-
-      <div class="help-section">
-        <h3>🍅 Pomodoro Tab</h3>
-        <p>A separate Pomodoro timer for classic focus/break cycles. Fully independent from the card deck. More useful for shorter bursts or when you want a rhythm without the card randomness.</p>
       </div>
       <hr class="help-divider">
 
       <div class="help-section">
         <h3>💡 Why It Works</h3>
         <ul>
-          <li><strong>Randomness fights monotony</strong> — you never know what session length is next, keeping you engaged.</li>
-          <li><strong>Variable intervals match spaced repetition</strong> — short and long sessions naturally mix.</li>
-          <li><strong>Completion tracking builds momentum</strong> — finishing a deck feels like a real achievement.</li>
-          <li><strong>Structured breaks prevent burnout</strong> — the post-card break is proportional to how hard you just worked.</li>
+          <li><strong>Randomness fights monotony</strong> — unpredictable session lengths keep engagement high.</li>
+          <li><strong>Variable durations mirror spaced repetition</strong> — short and long blocks naturally mix.</li>
+          <li><strong>Completion tracking builds momentum</strong> — finishing a full deck is a real milestone.</li>
+          <li><strong>Proportional breaks prevent burnout</strong> — the longer the session, the longer the reward.</li>
         </ul>
       </div>
 
@@ -507,257 +690,241 @@
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════ -->
 <script>
-// ═══════════════════════════════════════════════════════════
-//  BACKGROUND-SAFE TIMER
-//  Uses Date.now() timestamps so minimizing the tab never
-//  causes time to be lost. Ticks every second but catches up
-//  using wall-clock difference if the tab was hidden.
-// ═══════════════════════════════════════════════════════════
+'use strict';
+
+// ── Notifications ──────────────────────────────────────
+function requestNotifPerm() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+function notify(title, body) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    try {
+      new Notification(title, {
+        body,
+        icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♠</text></svg>"
+      });
+    } catch(e) {}
+  }
+}
+requestNotifPerm();
+
+// ── Background-safe ticker ──────────────────────────────
 function makeTicker(onTick, onComplete) {
   let startTime = null, pausedRemaining = null, totalSecs = 0, rafId = null, running = false;
-
   function tick() {
     if (!running) return;
     const elapsed = Math.floor((Date.now() - startTime) / 1000);
     const remaining = Math.max(0, pausedRemaining - elapsed);
     onTick(remaining, totalSecs);
     if (remaining <= 0) { running = false; onComplete(); return; }
-    rafId = setTimeout(tick, 500); 
+    rafId = setTimeout(tick, 500);
   }
-
   return {
-    start(secs) {
-      totalSecs = secs; pausedRemaining = secs;
-      startTime = Date.now(); running = true;
-      clearTimeout(rafId); tick();
-    },
-    resume() {
-      if (running || pausedRemaining === null) return;
-      startTime = Date.now(); running = true;
-      clearTimeout(rafId); tick();
-    },
-    pause() {
-      if (!running) return;
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      pausedRemaining = Math.max(0, pausedRemaining - elapsed);
-      running = false; clearTimeout(rafId);
-      onTick(pausedRemaining, totalSecs);
-    },
-    stop() {
-      running = false; clearTimeout(rafId);
-      pausedRemaining = null; startTime = null;
-    },
-    reset(secs) {
-      running = false; clearTimeout(rafId);
-      totalSecs = secs; pausedRemaining = secs; startTime = null;
-      onTick(secs, secs);
-    },
-    isRunning() { return running; },
-    remaining() {
-      if (!running) return pausedRemaining || 0;
-      return Math.max(0, pausedRemaining - Math.floor((Date.now() - startTime) / 1000));
-    }
+    start(secs)  { totalSecs = secs; pausedRemaining = secs; startTime = Date.now(); running = true; clearTimeout(rafId); tick(); },
+    resume()     { if (running || pausedRemaining === null) return; startTime = Date.now(); running = true; clearTimeout(rafId); tick(); },
+    pause()      { if (!running) return; pausedRemaining = Math.max(0, pausedRemaining - Math.floor((Date.now()-startTime)/1000)); running = false; clearTimeout(rafId); onTick(pausedRemaining, totalSecs); },
+    stop()       { running = false; clearTimeout(rafId); pausedRemaining = null; startTime = null; },
+    reset(secs)  { running = false; clearTimeout(rafId); totalSecs = secs; pausedRemaining = secs; startTime = null; onTick(secs, secs); },
+    isRunning()  { return running; },
+    remaining()  { if (!running) return pausedRemaining || 0; return Math.max(0, pausedRemaining - Math.floor((Date.now()-startTime)/1000)); }
   };
 }
 
-// ═══════════════════════════════════════════════════════════
-const SUITS = [
-  {name:'Hearts',   symbol:'♥', color:'red'},
-  {name:'Diamonds', symbol:'♦', color:'red'},
-  {name:'Clubs',    symbol:'♣', color:'black'},
-  {name:'Spades',   symbol:'♠', color:'black'},
-];
+// ── Constants ───────────────────────────────────────────
+const SUITS  = [{name:'Hearts',symbol:'♥',color:'red'},{name:'Diamonds',symbol:'♦',color:'red'},{name:'Clubs',symbol:'♣',color:'black'},{name:'Spades',symbol:'♠',color:'black'}];
 const RANKS  = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
 const JOKERS = ['Joker-Red','Joker-Black'];
-const TOTAL_CARDS = SUITS.length * RANKS.length + JOKERS.length;
+const TOTAL  = SUITS.length * RANKS.length + JOKERS.length; // 54
 
-function cardValue(rank) {
-  if (rank === 'A') return 1;
-  if (['J','Q','K'].includes(rank)) return 10;
-  return parseInt(rank);
-}
-
+function cardValue(rank) { if (rank==='A') return 1; if (['J','Q','K'].includes(rank)) return 10; return parseInt(rank); }
 let multiplier = 10;
-function studyMinutes(rank) { if (rank === 'Joker') return 120; return cardValue(rank) * multiplier; }
+function studyMinutes(rank) { return rank === 'Joker' ? 120 : cardValue(rank) * multiplier; }
 function isJoker(key) { return key === 'Joker-Red' || key === 'Joker-Black'; }
 
-// Break settings
-let breakEnabled = false;
-let breakMode = 'half';    // 'half' | 'custom'
-let breakCustomMin = 5;
-let isOnBreak = false;
-
+// Break state
+let breakEnabled = false, breakMode = 'half', breakCustomMin = 5, isOnBreak = false;
 function breakMinutesForCard(rank) {
   if (breakMode === 'custom') return breakCustomMin;
   if (rank === 'Joker') return 30;
-  return Math.max(1, Math.round((.5 * cardValue(rank)) * (multiplier * 0.5)));
+  return Math.max(1, Math.round(0.5 * cardValue(rank) * multiplier * 0.5));
 }
 
-// ── Storage ──
-const USERS_META_KEY  = 'studyDeck_users';
-const ACTIVE_USER_KEY = 'studyDeck_activeUser';
-const MULT_KEY        = 'studyDeck_multiplier';
-const POMO_STATS_KEY  = 'studyDeck_pomoStats';
-const BREAK_KEY       = 'studyDeck_break';
-const THEME_KEY       = 'studyDeck_theme';
+// ── Storage keys ────────────────────────────────────────
+const K_USERS      = 'studyDeck_users';
+const K_ACTIVE     = 'studyDeck_activeUser';
+const K_MULT       = 'studyDeck_multiplier';
+const K_BREAK      = 'studyDeck_break';
+const K_THEME      = 'studyDeck_theme';
+const K_STREAK     = 'studyDeck_streak';
+const K_SUBJECTS   = 'studyDeck_recentSubjects';  // shared recent list
+const K_DECK_HIST  = 'studyDeck_deckHistory';
+const K_POMO_TODAY = 'studyDeck_pomoToday';
+const K_POMO_ALL   = 'studyDeck_pomoAllTime';
+const K_POMO_HIST  = 'studyDeck_pomoHistory';
 
-function getStoredMeta()          { try { return JSON.parse(localStorage.getItem(USERS_META_KEY)) || []; } catch(e) { return []; } }
-function saveStoredMeta(meta)     { try { localStorage.setItem(USERS_META_KEY, JSON.stringify(meta)); } catch(e) {} }
-function getStoredUser(id)        { try { return JSON.parse(localStorage.getItem('studyDeck_u_' + id)); } catch(e) { return null; } }
-function saveStoredUser(id, data) { try { localStorage.setItem('studyDeck_u_' + id, JSON.stringify(data)); } catch(e) {} }
-function deleteStoredUser(id)     { try { localStorage.removeItem('studyDeck_u_' + id); } catch(e) {} }
-function getActiveId()            { return localStorage.getItem(ACTIVE_USER_KEY) || null; }
-function setActiveId(id)          { if (id) localStorage.setItem(ACTIVE_USER_KEY, id); else localStorage.removeItem(ACTIVE_USER_KEY); }
+function ls_get(k)    { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } }
+function ls_set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
+
+function getStoredMeta()         { return ls_get(K_USERS)  || []; }
+function saveStoredMeta(m)       { ls_set(K_USERS, m); }
+function getStoredUser(id)       { return ls_get('studyDeck_u_' + id); }
+function saveStoredUser(id, d)   { ls_set('studyDeck_u_' + id, d); }
+function deleteStoredUser(id)    { try { localStorage.removeItem('studyDeck_u_' + id); } catch(e) {} }
+function getActiveId()           { return localStorage.getItem(K_ACTIVE) || null; }
+function setActiveId(id)         { if (id) localStorage.setItem(K_ACTIVE, id); else localStorage.removeItem(K_ACTIVE); }
 
 function freshDeck() {
   const d = {};
-  SUITS.forEach(s => RANKS.forEach(r => { d[r+'-'+s.name] = true; }));
+  SUITS.forEach(s => RANKS.forEach(r => { d[r + '-' + s.name] = true; }));
   JOKERS.forEach(j => { d[j] = true; });
   return d;
 }
 function countStudied(d) { return Object.values(d).filter(v => v === false).length; }
-function isDeckComplete(d) { return countStudied(d) === TOTAL_CARDS; }
+function countCleared(d) { return Object.values(d).filter(v => v === 'cleared').length; }
+function isDeckComplete(d) { return countStudied(d) === TOTAL; }
 
-// ── State ──
+// ── Streak ──────────────────────────────────────────────
+function getStreak() { return ls_get(K_STREAK) || { count: 0, lastDate: '' }; }
+function touchStreak() {
+  const today = new Date().toDateString();
+  const s = getStreak();
+  if (s.lastDate === today) return;       // already credited today
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  s.count = (s.lastDate === yesterday) ? s.count + 1 : 1;
+  s.lastDate = today;
+  ls_set(K_STREAK, s);
+  renderStreakBadge();
+}
+function renderStreakBadge() {
+  document.getElementById('streakCount').textContent = getStreak().count;
+}
+
+// ── Recent subjects ─────────────────────────────────────
+function getRecentSubjects() { return ls_get(K_SUBJECTS) || []; }
+function addRecentSubject(subj) {
+  if (!subj || !subj.trim()) return;
+  subj = subj.trim();
+  let list = getRecentSubjects().filter(s => s !== subj);
+  list.unshift(subj);
+  ls_set(K_SUBJECTS, list.slice(0, 6));
+  renderSubjectChips();
+}
+function renderSubjectChips() {
+  const list = getRecentSubjects();
+  // Deck chips
+  renderChipsInto('deckSubjectChips', list, 'deckSubjectInput');
+  // Pomo chips
+  renderChipsInto('pomoSubjectChips', list, 'pomoSubjectInput');
+}
+function renderChipsInto(containerId, subjects, inputId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  subjects.forEach(subj => {
+    const chip = document.createElement('span');
+    chip.className = 'subject-recent-chip';
+    chip.textContent = subj;
+    chip.addEventListener('click', () => {
+      const inp = document.getElementById(inputId);
+      if (inp) { inp.value = subj; }
+      container.querySelectorAll('.subject-recent-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+    });
+    container.appendChild(chip);
+  });
+}
+
+// ── Deck history ─────────────────────────────────────────
+function getDeckHistory() { return ls_get(K_DECK_HIST) || []; }
+function logDeckSession(subj, mins) {
+  if (!subj || !subj.trim()) return;
+  const list = getDeckHistory();
+  list.unshift({ subject: subj.trim(), mins, date: new Date().toLocaleDateString(), ts: Date.now() });
+  ls_set(K_DECK_HIST, list.slice(0, 60));
+}
+
+// ── Pomo stats ───────────────────────────────────────────
+let pomoStatsToday   = { pomos: 0, focusMin: 0, breakMin: 0 };
+let pomoStatsAllTime = { pomos: 0, focusMin: 0, breakMin: 0 };
+let statsPeriod = 'today'; // 'today' | 'alltime'
+
+function loadPomoStats() {
+  const saved = ls_get(K_POMO_TODAY);
+  if (saved && saved.date === new Date().toDateString()) {
+    pomoStatsToday = saved.stats;
+  } else {
+    pomoStatsToday = { pomos: 0, focusMin: 0, breakMin: 0 };
+    ls_set(K_POMO_TODAY, { date: new Date().toDateString(), stats: pomoStatsToday });
+  }
+  pomoStatsAllTime = ls_get(K_POMO_ALL) || { pomos: 0, focusMin: 0, breakMin: 0 };
+}
+function savePomoStats() {
+  ls_set(K_POMO_TODAY, { date: new Date().toDateString(), stats: pomoStatsToday });
+  ls_set(K_POMO_ALL,   pomoStatsAllTime);
+}
+function renderPomoStats() {
+  const d = statsPeriod === 'today' ? pomoStatsToday : pomoStatsAllTime;
+  document.getElementById('statPomos').textContent    = d.pomos;
+  document.getElementById('statFocusMin').textContent = d.focusMin;
+  document.getElementById('statBreakMin').textContent = d.breakMin;
+}
+
+// ── Pomo history ─────────────────────────────────────────
+function getPomoHistory() { return ls_get(K_POMO_HIST) || []; }
+function logPomoSession(subj, mins) {
+  if (!subj || !subj.trim()) return;
+  const list = getPomoHistory();
+  list.unshift({ subject: subj.trim(), mins, date: new Date().toLocaleDateString(), ts: Date.now() });
+  ls_set(K_POMO_HIST, list.slice(0, 60));
+  renderPomoHistory();
+}
+function renderPomoHistory() {
+  const container = document.getElementById('pomoHistoryList');
+  const list = getPomoHistory();
+  renderHistoryList(container, list, 'green');
+}
+
+// Shared history renderer
+function renderHistoryList(container, list, tagClass) {
+  container.innerHTML = '';
+  if (!list.length) {
+    container.innerHTML = '<div class="history-empty">No sessions yet. Set a subject and let the timer complete!</div>';
+    return;
+  }
+  list.slice(0, 20).forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'history-item';
+    el.innerHTML = `
+      <div class="history-item-left">
+        <span class="history-item-subject">${escHtml(item.subject)}</span>
+        <span class="history-item-date">${item.date}</span>
+      </div>
+      <div class="history-item-right">
+        <span class="history-item-mins">${item.mins}</span>
+        <span class="history-item-mins-lbl">min</span>
+        <span class="history-tag ${tagClass || ''}">📚</span>
+      </div>`;
+    container.appendChild(el);
+  });
+}
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── User management ──────────────────────────────────────
 let users = [], activeUserId = null, deck = {}, currentCard = null;
-let timerRunning = false;
 
 function getActiveUser() { return users.find(u => u.id === activeUserId) || null; }
 function persist() {
-  const u = getActiveUser(); if (!u) return;
+  const u = getActiveUser();
+  if (!u) return;
   u.deck = deck; u.currentCard = currentCard;
   saveStoredUser(u.id, u);
 }
-
-// ── Main deck ticker ──
-const deckTicker = makeTicker(
-  function onTick(remaining, total) {
-    if (isOnBreak) return; 
-    document.getElementById('timerDisplay').textContent = formatTime(remaining);
-    document.getElementById('progressBar').style.width = (remaining / total * 100) + '%';
-  },
-  function onComplete() {
-    if (isOnBreak) return;
-    document.getElementById('timerDisplay').className = 'timer-display pulsing';
-    document.getElementById('timerLabel').textContent = "✅ Time's up! Great work!";
-    document.getElementById('startStopBtn').textContent = '▶ Start';
-    document.getElementById('startStopBtn').disabled = true;
-    document.getElementById('progressBar').style.width = '0%';
-    playAlarm();
-    if (breakEnabled && currentCard) {
-      setTimeout(() => startBreakPhase(currentCard), 1200);
-    }
-  }
-);
-
-// ── Break ticker ──
-const breakTicker = makeTicker(
-  function onTick(remaining, total) {
-    document.getElementById('timerDisplay').textContent = formatTime(remaining);
-    document.getElementById('progressBar').style.width = (remaining / total * 100) + '%';
-  },
-  function onComplete() {
-    endBreakPhase();
-    playAlarm();
-  }
-);
-
-function startBreakPhase(card) {
-  isOnBreak = true;
-  const mins = breakMinutesForCard(card.rank);
-  const secs = mins * 60;
-  document.getElementById('breakPhaseBanner').classList.add('visible');
-  document.getElementById('timerDisplay').className = 'timer-display break-running';
-  document.getElementById('timerLabel').textContent = '☕ Break · ' + mins + ' min — relax!';
-  document.getElementById('progressBar').style.width = '100%';
-  document.getElementById('progressBar').classList.add('break-fill');
-  document.getElementById('startStopBtn').disabled = true;
-  document.getElementById('resetTimerBtn').disabled = true;
-  document.getElementById('clearCardBtn').disabled = true;
-  document.getElementById('skipBreakBtn').style.display = '';
-  breakTicker.start(secs);
-}
-
-function endBreakPhase() {
-  isOnBreak = false;
-  breakTicker.stop();
-  document.getElementById('breakPhaseBanner').classList.remove('visible');
-  document.getElementById('timerDisplay').className = 'timer-display';
-  document.getElementById('timerLabel').textContent = 'Draw a card to start';
-  document.getElementById('timerDisplay').textContent = '00:00';
-  document.getElementById('progressBar').style.width = '100%';
-  document.getElementById('progressBar').classList.remove('break-fill');
-  document.getElementById('skipBreakBtn').style.display = 'none';
-  document.getElementById('startStopBtn').disabled = true;
-  document.getElementById('resetTimerBtn').disabled = true;
-  document.getElementById('clearCardBtn').disabled = true;
-}
-
-document.getElementById('skipBreakBtn').addEventListener('click', () => {
-  endBreakPhase();
-  stopAlarm();
-});
-
-// ── Multiplier ──
-function setMultiplier(val) {
-  val = Math.max(1, Math.min(120, parseInt(val) || 10)); multiplier = val;
-  try { localStorage.setItem(MULT_KEY, val); } catch(e) {}
-  document.getElementById('multValueDisplay').textContent = '×' + val + ' min';
-  document.getElementById('multCustom').value = val;
-  document.getElementById('multDesc').textContent = 'Ace=' + val + 'min · 2–10=face×' + val + ' · J/Q/K=' + (10*val) + 'min · Joker=120min';
-  document.querySelectorAll('.mult-chip').forEach(c => c.classList.toggle('active', parseInt(c.dataset.mult) === val));
-  updateBreakDesc();
-  if (currentCard && !isOnBreak) {
-    const mins = studyMinutes(currentCard.rank); const secs = mins * 60;
-    deckTicker.reset(secs);
-    document.getElementById('timerLabel').textContent = cardLabel(currentCard) + ' · ' + mins + ' minutes';
-    document.getElementById('startStopBtn').textContent = '▶ Start'; document.getElementById('startStopBtn').disabled = false;
-  }
-  renderDeck();
-}
-document.querySelectorAll('.mult-chip').forEach(c => c.addEventListener('click', () => setMultiplier(parseInt(c.dataset.mult))));
-document.getElementById('multCustom').addEventListener('input', function() { const v = parseInt(this.value); if (!isNaN(v) && v >= 1) setMultiplier(v); });
-
-// ── Break UI ──
-function updateBreakDesc() {
-  const desc = document.getElementById('breakDesc');
-  if (!breakEnabled) { desc.style.display = 'none'; return; }
-  desc.style.display = '';
-  if (breakMode === 'custom') {
-    desc.textContent = 'Break = ' + breakCustomMin + ' min (fixed)';
-  } else {
-    desc.textContent = 'Break =  ½ card value × ' + Math.round(multiplier * 0.5 * 10)/10 + ' min (½ multiplier)';
-  }
-}
-function saveBreakSettings() {
-  try { localStorage.setItem(BREAK_KEY, JSON.stringify({enabled:breakEnabled, mode:breakMode, custom:breakCustomMin})); } catch(e) {}
-}
-function loadBreakSettings() {
-  try {
-    const s = JSON.parse(localStorage.getItem(BREAK_KEY));
-    if (s) { breakEnabled = s.enabled||false; breakMode = s.mode||'half'; breakCustomMin = s.custom||5; }
-  } catch(e) {}
-}
-
-document.getElementById('breakToggle').addEventListener('change', function() {
-  breakEnabled = this.checked;
-  document.getElementById('breakOptions').classList.toggle('visible', breakEnabled);
-  saveBreakSettings(); updateBreakDesc();
-});
-document.querySelectorAll('.break-mode-chip').forEach(c => {
-  c.addEventListener('click', () => {
-    document.querySelectorAll('.break-mode-chip').forEach(x => x.classList.remove('active'));
-    c.classList.add('active'); breakMode = c.dataset.mode;
-    document.getElementById('breakCustomWrap').classList.toggle('visible', breakMode === 'custom');
-    saveBreakSettings(); updateBreakDesc();
-  });
-});
-document.getElementById('breakCustomMin').addEventListener('input', function() {
-  const v = parseInt(this.value); if (!isNaN(v) && v >= 1) { breakCustomMin = v; saveBreakSettings(); updateBreakDesc(); }
-});
-
-// ── User management ──
 function createUser(name) {
   const id = 'u' + Date.now() + Math.random().toString(36).slice(2,5);
   return { id, name, deck: freshDeck(), currentCard: null, deckCompletions: 0 };
@@ -765,7 +932,7 @@ function createUser(name) {
 function addUser(name) {
   name = name.trim(); if (!name) return;
   const u = createUser(name); users.push(u);
-  saveStoredMeta(users.map(u => ({id:u.id,name:u.name})));
+  saveStoredMeta(users.map(u => ({ id: u.id, name: u.name })));
   saveStoredUser(u.id, u); switchUser(u.id);
 }
 function removeUser(id) {
@@ -773,13 +940,12 @@ function removeUser(id) {
   const u = users.find(u => u.id === id);
   if (!confirm('Remove ' + (u ? u.name : 'this user') + '? Their progress will be lost.')) return;
   deleteStoredUser(id); users = users.filter(u => u.id !== id);
-  saveStoredMeta(users.map(u => ({id:u.id,name:u.name})));
+  saveStoredMeta(users.map(u => ({ id: u.id, name: u.name })));
   if (activeUserId === id) switchUser(users[0].id); else renderUsers();
 }
 function switchUser(id) {
   persist();
-  deckTicker.stop(); breakTicker.stop();
-  isOnBreak = false;
+  deckTicker.stop(); breakTicker.stop(); isOnBreak = false;
   document.getElementById('breakPhaseBanner').classList.remove('visible');
   document.getElementById('progressBar').classList.remove('break-fill');
   document.getElementById('skipBreakBtn').style.display = 'none';
@@ -787,39 +953,40 @@ function switchUser(id) {
   const u = users.find(u => u.id === id); if (!u) return;
   deck = u.deck || freshDeck(); currentCard = u.currentCard || null;
   document.getElementById('currentUserBanner').textContent = '📖 ' + u.name + '\'s Session';
-  updateCompletionsBadge();
-  restoreCardDisplay(); renderUsers(); renderDeck();
+  updateCompletionsBadge(); restoreCardDisplay(); renderUsers(); renderDeck();
 }
-function initials(name) { return name.trim().split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2); }
+function initials(name) { return name.trim().split(/\s+/).map(w => w[0]).join('').toUpperCase().slice(0, 2); }
 
-// ── Badge ──
+// ── Completions badge ────────────────────────────────────
 function updateCompletionsBadge() {
   const u = getActiveUser();
-  document.getElementById('completionsCount').textContent = u ? (u.deckCompletions||0) : 0;
+  document.getElementById('completionsCount').textContent = u ? (u.deckCompletions || 0) : 0;
 }
 function animateBadge() {
   const b = document.getElementById('completionsBadge');
   b.classList.remove('badge-animate'); void b.offsetWidth; b.classList.add('badge-animate');
-  setTimeout(() => b.classList.remove('badge-animate'), 600);
 }
 function checkDeckCompletion() {
   if (!isDeckComplete(deck)) return;
   const u = getActiveUser(); if (!u) return;
-  u.deckCompletions = (u.deckCompletions||0) + 1;
+  u.deckCompletions = (u.deckCompletions || 0) + 1;
   saveStoredUser(u.id, u); updateCompletionsBadge(); animateBadge();
-  showToast('🎉 Deck Complete! (' + u.deckCompletions + (u.deckCompletions===1?' time':' times') + ')');
+  notify('🎉 Deck Complete!', 'You finished all 54 cards. Incredible work!');
+  showToast('🎉 Deck Complete! (' + u.deckCompletions + (u.deckCompletions === 1 ? ' time' : ' times') + ')');
 }
 
+// ── Toast ────────────────────────────────────────────────
 function showToast(msg) {
   const ex = document.getElementById('studyToast'); if (ex) ex.remove();
+  ensurePopupStyle();
   const t = document.createElement('div'); t.id = 'studyToast';
   t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#2a2420;color:#fff;padding:14px 24px;border-radius:50px;font-family:Lato,sans-serif;font-size:0.9rem;font-weight:700;box-shadow:0 8px 32px rgba(0,0,0,0.35);z-index:9998;white-space:nowrap;animation:slideUpPopup .3s ease;';
-  t.textContent = msg; ensurePopupStyle(); document.body.appendChild(t);
+  t.textContent = msg; document.body.appendChild(t);
   setTimeout(() => { if (t.parentNode) t.remove(); }, 4000);
 }
 function ensurePopupStyle() {
-  if (document.getElementById('alarmPopupStyle')) return;
-  const s = document.createElement('style'); s.id = 'alarmPopupStyle';
+  if (document.getElementById('popupStyle')) return;
+  const s = document.createElement('style'); s.id = 'popupStyle';
   s.textContent = '@keyframes slideUpPopup{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
   document.head.appendChild(s);
 }
@@ -844,14 +1011,17 @@ function cardLabel(c) {
   return isJoker(c.key) ? c.suit.name + ' Joker' : c.rank + ' of ' + c.suit.name;
 }
 
+function formatTime(secs) {
+  return String(Math.floor(secs / 60)).padStart(2, '0') + ':' + String(secs % 60).padStart(2, '0');
+}
+
 function restoreCardDisplay() {
-  const el = document.getElementById('drawnCard');
-  deckTicker.stop();
+  const el = document.getElementById('drawnCard'); deckTicker.stop();
   if (currentCard) {
     const joker = isJoker(currentCard.key);
     el.className = 'drawn-card ' + currentCard.suit.color;
-    el.innerHTML = '<span>' + (joker?'🃏':currentCard.rank) + '</span><span class="mini-suit">' + (joker?currentCard.suit.name:currentCard.suit.symbol) + '</span>';
-    const mins = studyMinutes(currentCard.rank); const secs = mins * 60;
+    el.innerHTML = '<span>' + (joker ? '🃏' : currentCard.rank) + '</span><span class="mini-suit">' + (joker ? currentCard.suit.name : currentCard.suit.symbol) + '</span>';
+    const mins = studyMinutes(currentCard.rank), secs = mins * 60;
     deckTicker.reset(secs);
     document.getElementById('timerDisplay').textContent = formatTime(secs);
     document.getElementById('timerDisplay').className = 'timer-display';
@@ -862,18 +1032,21 @@ function restoreCardDisplay() {
   } else {
     el.className = 'drawn-card empty'; el.innerHTML = '<span>draw</span><span>a card</span>';
     deckTicker.reset(0);
-    document.getElementById('timerDisplay').textContent = '00:00'; document.getElementById('timerDisplay').className = 'timer-display';
-    document.getElementById('timerLabel').textContent = 'Draw a card to start'; document.getElementById('progressBar').style.width = '100%';
+    document.getElementById('timerDisplay').textContent = '00:00';
+    document.getElementById('timerDisplay').className = 'timer-display';
+    document.getElementById('timerLabel').textContent = 'Draw a card to start';
+    document.getElementById('progressBar').style.width = '100%';
     document.getElementById('startStopBtn').disabled = true; document.getElementById('startStopBtn').textContent = '▶ Start';
     document.getElementById('resetTimerBtn').disabled = true; document.getElementById('clearCardBtn').disabled = true;
   }
 }
 
-// ── Deck ──
+// ── Deck render ──────────────────────────────────────────
 function availableCards() { return Object.keys(deck).filter(k => deck[k] === true); }
-function formatTime(secs) { return String(Math.floor(secs/60)).padStart(2,'0') + ':' + String(secs%60).padStart(2,'0'); }
-function updateDeckCount() { const n = availableCards().length; document.getElementById('deckCount').textContent = n + ' card' + (n!==1?'s':'') + ' remaining'; }
-
+function updateDeckCount() {
+  const n = availableCards().length;
+  document.getElementById('deckCount').textContent = n + ' card' + (n !== 1 ? 's' : '') + ' remaining';
+}
 function renderDeck() {
   const container = document.getElementById('suitsContainer'); container.innerHTML = '';
   SUITS.forEach(suit => {
@@ -883,33 +1056,34 @@ function renderDeck() {
     row.appendChild(label);
     const grid = document.createElement('div'); grid.className = 'cards-grid';
     RANKS.forEach(rank => {
-      const key = rank + '-' + suit.name; const val = deck[key];
+      const key = rank + '-' + suit.name, val = deck[key];
       const card = document.createElement('div');
       let cls = 'mini-card ' + suit.color;
       if (val === false) cls += ' disabled'; else if (val === 'cleared') cls += ' cleared';
       if (currentCard && currentCard.key === key) cls += ' active-card';
       card.className = cls;
       card.innerHTML = '<span>' + rank + '</span><span class="mini-suit">' + suit.symbol + '</span>';
-      card.title = rank + ' of ' + suit.name + ' — ' + studyMinutes(rank) + 'min' + (val==='cleared'?' (cleared)':'');
+      card.title = rank + ' of ' + suit.name + ' — ' + studyMinutes(rank) + 'min' + (val === 'cleared' ? ' (cleared)' : '');
       card.addEventListener('click', () => toggleCard(key));
       grid.appendChild(card);
     });
     row.appendChild(grid); container.appendChild(row);
   });
+  // Jokers
   const jr = document.createElement('div'); jr.className = 'suit-row';
   const jl = document.createElement('div'); jl.className = 'suit-label black';
   jl.innerHTML = '<span class="suit-icon">🃏</span> Jokers <span style="margin-left:6px;font-size:0.7rem;color:var(--accent)">(120 min each)</span>';
   jr.appendChild(jl);
   const jg = document.createElement('div'); jg.className = 'cards-grid';
   JOKERS.forEach(key => {
-    const isRed = key === 'Joker-Red'; const val = deck[key];
+    const isRed = key === 'Joker-Red', val = deck[key];
     const card = document.createElement('div');
-    let cls = 'mini-card ' + (isRed?'red':'black');
+    let cls = 'mini-card ' + (isRed ? 'red' : 'black');
     if (val === false) cls += ' disabled'; else if (val === 'cleared') cls += ' cleared';
     if (currentCard && currentCard.key === key) cls += ' active-card';
     card.className = cls;
-    card.innerHTML = '<span>🃏</span><span class="mini-suit" style="font-size:0.6rem">' + (isRed?'Red':'Blk') + '</span>';
-    card.title = (isRed?'Red':'Black') + ' Joker — 120min' + (val==='cleared'?' (cleared)':'');
+    card.innerHTML = '<span>🃏</span><span class="mini-suit" style="font-size:0.6rem">' + (isRed ? 'Red' : 'Blk') + '</span>';
+    card.title = (isRed ? 'Red' : 'Black') + ' Joker — 120min' + (val === 'cleared' ? ' (cleared)' : '');
     card.addEventListener('click', () => toggleCard(key));
     jg.appendChild(card);
   });
@@ -925,28 +1099,30 @@ function toggleCard(key) {
   persist(); checkDeckCompletion(); renderDeck();
 }
 
+// ── Draw & timers ────────────────────────────────────────
 function drawCard() {
   if (!activeUserId) { alert('Please select or add a user first!'); return; }
   if (isOnBreak) { alert('Finish your break first! (or click Skip Break)'); return; }
   const avail = availableCards();
-  if (avail.length === 0) { alert('No cards left! Reset the deck to play again.'); return; }
+  if (!avail.length) { alert('No cards left! Reset the deck to play again.'); return; }
   deckTicker.stop();
   const key = avail[Math.floor(Math.random() * avail.length)];
   deck[key] = false;
   let rank, suit;
   if (isJoker(key)) {
-    rank = 'Joker'; const isRed = key === 'Joker-Red';
-    suit = {name: isRed?'Red':'Black', symbol:'🃏', color: isRed?'red':'black'};
+    rank = 'Joker';
+    const isRed = key === 'Joker-Red';
+    suit = { name: isRed ? 'Red' : 'Black', symbol: '🃏', color: isRed ? 'red' : 'black' };
   } else {
     const parts = key.split('-'); rank = parts[0];
     suit = SUITS.find(s => s.name === parts.slice(1).join('-'));
   }
-  currentCard = {key, rank, suit};
+  currentCard = { key, rank, suit };
   const el = document.getElementById('drawnCard');
   el.className = 'drawn-card ' + suit.color;
-  el.innerHTML = '<span>' + (rank==='Joker'?'🃏':rank) + '</span><span class="mini-suit">' + (rank==='Joker'?suit.name:suit.symbol) + '</span>';
+  el.innerHTML = '<span>' + (rank === 'Joker' ? '🃏' : rank) + '</span><span class="mini-suit">' + (rank === 'Joker' ? suit.name : suit.symbol) + '</span>';
   el.classList.add('pop'); setTimeout(() => el.classList.remove('pop'), 400);
-  const mins = studyMinutes(rank); const secs = mins * 60;
+  const mins = studyMinutes(rank), secs = mins * 60;
   deckTicker.reset(secs);
   document.getElementById('timerDisplay').textContent = formatTime(secs);
   document.getElementById('timerDisplay').className = 'timer-display';
@@ -958,9 +1134,76 @@ function drawCard() {
   persist(); checkDeckCompletion(); renderDeck();
 }
 
+const deckTicker = makeTicker(
+  function(remaining, total) {
+    if (isOnBreak) return;
+    document.getElementById('timerDisplay').textContent = formatTime(remaining);
+    document.getElementById('progressBar').style.width = (remaining / total * 100) + '%';
+  },
+  function() {
+    if (isOnBreak) return;
+    document.getElementById('timerDisplay').className = 'timer-display pulsing';
+    document.getElementById('timerLabel').textContent = "✅ Time's up! Great work!";
+    document.getElementById('startStopBtn').textContent = '▶ Start';
+    document.getElementById('startStopBtn').disabled = true;
+    document.getElementById('progressBar').style.width = '0%';
+    // Log session & streak
+    const subj = document.getElementById('deckSubjectInput').value.trim();
+    if (subj && currentCard) {
+      logDeckSession(subj, studyMinutes(currentCard.rank));
+      addRecentSubject(subj);
+    }
+    touchStreak();
+    notify('⏰ Time\'s up!', (subj ? subj + ' — ' : '') + cardLabel(currentCard) + ' complete!');
+    playAlarm();
+    if (breakEnabled && currentCard) {
+      setTimeout(() => startBreakPhase(currentCard), 1200);
+    }
+  }
+);
+
+const breakTicker = makeTicker(
+  function(remaining, total) {
+    document.getElementById('timerDisplay').textContent = formatTime(remaining);
+    document.getElementById('progressBar').style.width = (remaining / total * 100) + '%';
+  },
+  function() {
+    endBreakPhase();
+    notify('☕ Break over!', 'Time to get back to studying.');
+    playAlarm();
+  }
+);
+
+function startBreakPhase(card) {
+  isOnBreak = true;
+  const mins = breakMinutesForCard(card.rank), secs = mins * 60;
+  document.getElementById('breakPhaseBanner').classList.add('visible');
+  document.getElementById('timerDisplay').className = 'timer-display break-running';
+  document.getElementById('timerLabel').textContent = '☕ Break · ' + mins + ' min — relax!';
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressBar').classList.add('break-fill');
+  document.getElementById('startStopBtn').disabled = true;
+  document.getElementById('resetTimerBtn').disabled = true;
+  document.getElementById('clearCardBtn').disabled = true;
+  document.getElementById('skipBreakBtn').style.display = '';
+  breakTicker.start(secs);
+}
+function endBreakPhase() {
+  isOnBreak = false; breakTicker.stop();
+  document.getElementById('breakPhaseBanner').classList.remove('visible');
+  document.getElementById('timerDisplay').className = 'timer-display';
+  document.getElementById('timerLabel').textContent = 'Draw a card to start';
+  document.getElementById('timerDisplay').textContent = '00:00';
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressBar').classList.remove('break-fill');
+  document.getElementById('skipBreakBtn').style.display = 'none';
+  document.getElementById('startStopBtn').disabled = true;
+  document.getElementById('resetTimerBtn').disabled = true;
+  document.getElementById('clearCardBtn').disabled = true;
+}
+
 function startTimer() {
-  if (isOnBreak) return;
-  if (deckTicker.isRunning()) return;
+  if (isOnBreak || deckTicker.isRunning()) return;
   document.getElementById('startStopBtn').textContent = '⏸ Pause';
   document.getElementById('timerDisplay').className = 'timer-display running';
   if (deckTicker.remaining() > 0) deckTicker.resume();
@@ -974,12 +1217,13 @@ function resetTimer() {
   if (isOnBreak) return;
   deckTicker.stop();
   if (currentCard) {
-    const mins = studyMinutes(currentCard.rank); const secs = mins * 60;
+    const mins = studyMinutes(currentCard.rank), secs = mins * 60;
     deckTicker.reset(secs);
     document.getElementById('timerDisplay').textContent = formatTime(secs);
     document.getElementById('timerDisplay').className = 'timer-display';
     document.getElementById('progressBar').style.width = '100%';
-    document.getElementById('startStopBtn').textContent = '▶ Start'; document.getElementById('startStopBtn').disabled = false;
+    document.getElementById('startStopBtn').textContent = '▶ Start';
+    document.getElementById('startStopBtn').disabled = false;
   }
 }
 function clearCard() {
@@ -1000,136 +1244,275 @@ function clearCard() {
   persist(); renderDeck();
 }
 
-// ── Alarm ──
-var alarmCtx=null, alarmLoopId=null, alarmAutoStopId=null;
-var ALARM_NOTES=[523,659,784,1047,784,659,523,523,659,784,1047,784,659,523,523,659,784,1047,784,659,523,523,659,784,1047,784,659,523,523,659,784,1047,784,659,523];
-var ALARM_LOOP_MS=ALARM_NOTES.length*220;
+// ── Multiplier ───────────────────────────────────────────
+function setMultiplier(val) {
+  val = Math.max(1, Math.min(120, parseInt(val) || 10)); multiplier = val;
+  ls_set(K_MULT, val);
+  document.getElementById('multValueDisplay').textContent = '×' + val + ' min';
+  document.getElementById('multCustom').value = val;
+  document.getElementById('multDesc').textContent = 'Ace=' + val + 'min · 2–10=face×' + val + ' · J/Q/K=' + (10*val) + 'min · Joker=120min';
+  document.querySelectorAll('.mult-chip').forEach(c => c.classList.toggle('active', parseInt(c.dataset.mult) === val));
+  updateBreakDesc();
+  if (currentCard && !isOnBreak) {
+    const mins = studyMinutes(currentCard.rank), secs = mins * 60;
+    deckTicker.reset(secs);
+    document.getElementById('timerLabel').textContent = cardLabel(currentCard) + ' · ' + mins + ' minutes';
+    document.getElementById('startStopBtn').textContent = '▶ Start';
+    document.getElementById('startStopBtn').disabled = false;
+  }
+  renderDeck();
+}
+document.querySelectorAll('.mult-chip').forEach(c => c.addEventListener('click', () => setMultiplier(parseInt(c.dataset.mult))));
+document.getElementById('multCustom').addEventListener('input', function() { const v = parseInt(this.value); if (!isNaN(v) && v >= 1) setMultiplier(v); });
+
+// ── Break UI ─────────────────────────────────────────────
+function updateBreakDesc() {
+  const desc = document.getElementById('breakDesc');
+  if (!breakEnabled) { desc.style.display = 'none'; return; }
+  desc.style.display = '';
+  desc.textContent = breakMode === 'custom'
+    ? 'Break = ' + breakCustomMin + ' min (fixed)'
+    : 'Break = ½ card value × ½ multiplier (≈' + Math.round(multiplier * 0.5 * 10) / 10 + ' min per point)';
+}
+function saveBreakSettings() { ls_set(K_BREAK, { enabled: breakEnabled, mode: breakMode, custom: breakCustomMin }); }
+function loadBreakSettings() {
+  const s = ls_get(K_BREAK);
+  if (s) { breakEnabled = s.enabled || false; breakMode = s.mode || 'half'; breakCustomMin = s.custom || 5; }
+}
+document.getElementById('breakToggle').addEventListener('change', function() {
+  breakEnabled = this.checked;
+  document.getElementById('breakOptions').classList.toggle('visible', breakEnabled);
+  saveBreakSettings(); updateBreakDesc();
+});
+document.querySelectorAll('.break-mode-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.break-mode-chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active'); breakMode = c.dataset.mode;
+    document.getElementById('breakCustomWrap').classList.toggle('visible', breakMode === 'custom');
+    saveBreakSettings(); updateBreakDesc();
+  });
+});
+document.getElementById('breakCustomMin').addEventListener('input', function() {
+  const v = parseInt(this.value); if (!isNaN(v) && v >= 1) { breakCustomMin = v; saveBreakSettings(); updateBreakDesc(); }
+});
+
+// ── Alarm ────────────────────────────────────────────────
+var alarmCtx = null, alarmLoopId = null, alarmAutoStopId = null;
+var ALARM_NOTES = [523,659,784,1047,784,659,523,523,659,784,1047,784,659,523,523,659,784,1047,784,659,523];
+var ALARM_LOOP_MS = ALARM_NOTES.length * 220;
 function playAlarm() {
   stopAlarm(); showAlarmPopup(); ensurePopupStyle();
   function loop() {
     try {
-      alarmCtx=new(window.AudioContext||window.webkitAudioContext)();
-      var t=alarmCtx.currentTime;
-      ALARM_NOTES.forEach(freq=>{var o=alarmCtx.createOscillator(),g=alarmCtx.createGain();o.connect(g);g.connect(alarmCtx.destination);o.type='sine';o.frequency.setValueAtTime(freq,t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.4,t+0.05);g.gain.exponentialRampToValueAtTime(0.001,t+0.3);o.start(t);o.stop(t+0.3);t+=0.22;});
-    } catch(e){}
-    alarmLoopId=setTimeout(loop,ALARM_LOOP_MS);
+      alarmCtx = new (window.AudioContext || window.webkitAudioContext)();
+      var t = alarmCtx.currentTime;
+      ALARM_NOTES.forEach(freq => {
+        var o = alarmCtx.createOscillator(), g = alarmCtx.createGain();
+        o.connect(g); g.connect(alarmCtx.destination); o.type = 'sine';
+        o.frequency.setValueAtTime(freq, t); g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(0.4, t+0.05); g.gain.exponentialRampToValueAtTime(0.001, t+0.3);
+        o.start(t); o.stop(t+0.3); t += 0.22;
+      });
+    } catch(e) {}
+    alarmLoopId = setTimeout(loop, ALARM_LOOP_MS);
   }
-  loop(); alarmAutoStopId=setTimeout(stopAlarm,30000);
+  loop(); alarmAutoStopId = setTimeout(stopAlarm, 30000);
 }
 function stopAlarm() {
-  clearTimeout(alarmLoopId);alarmLoopId=null;clearTimeout(alarmAutoStopId);alarmAutoStopId=null;
-  if(alarmCtx){try{alarmCtx.close();}catch(e){}alarmCtx=null;}
+  clearTimeout(alarmLoopId); alarmLoopId = null;
+  clearTimeout(alarmAutoStopId); alarmAutoStopId = null;
+  if (alarmCtx) { try { alarmCtx.close(); } catch(e) {} alarmCtx = null; }
   hideAlarmPopup();
 }
 function showAlarmPopup() {
-  if(document.getElementById('alarmPopup'))return;
-  const p=document.createElement('div');p.id='alarmPopup';
-  p.style.cssText='position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#2a2420;color:#fff;padding:14px 20px 14px 24px;border-radius:50px;display:flex;align-items:center;gap:14px;box-shadow:0 8px 32px rgba(0,0,0,0.35);z-index:9999;font-family:Lato,sans-serif;font-size:0.9rem;font-weight:700;animation:slideUpPopup .3s ease;';
-  const msg=document.createElement('span');msg.textContent=isOnBreak?'☕ Break over!':'⏰ Time\'s up!';
-  const btn=document.createElement('button');btn.textContent='Stop Alarm';
-  btn.style.cssText='background:var(--accent);color:#fff;border:none;border-radius:50px;padding:7px 18px;font-family:Lato,sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;';
-  btn.addEventListener('click',stopAlarm);p.appendChild(msg);p.appendChild(btn);document.body.appendChild(p);
+  if (document.getElementById('alarmPopup')) return;
+  const p = document.createElement('div'); p.id = 'alarmPopup';
+  p.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#2a2420;color:#fff;padding:14px 20px 14px 24px;border-radius:50px;display:flex;align-items:center;gap:14px;box-shadow:0 8px 32px rgba(0,0,0,0.35);z-index:9999;font-family:Lato,sans-serif;font-size:0.9rem;font-weight:700;animation:slideUpPopup .3s ease;';
+  const msg = document.createElement('span'); msg.textContent = isOnBreak ? '☕ Break over!' : '⏰ Time\'s up!';
+  const btn = document.createElement('button'); btn.textContent = 'Stop Alarm';
+  btn.style.cssText = 'background:var(--accent);color:#fff;border:none;border-radius:50px;padding:7px 18px;font-family:Lato,sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;';
+  btn.addEventListener('click', stopAlarm);
+  p.appendChild(msg); p.appendChild(btn); document.body.appendChild(p);
 }
-function hideAlarmPopup(){const p=document.getElementById('alarmPopup');if(p)p.remove();}
+function hideAlarmPopup() { const p = document.getElementById('alarmPopup'); if (p) p.remove(); }
 
-// ── Pomodoro ──
-var POMO_CIRC=2*Math.PI*68;
-var pomoSettings={work:25,short:5,long:15,longAfter:4};
-var pomoMode='work',pomoTotalTime=0,pomoRunning=false,pomoSessionCount=0;
-var pomoStats={pomos:0,focusMin:0,breakMin:0};
+// ── Pomodoro ─────────────────────────────────────────────
+var POMO_CIRC = 2 * Math.PI * 68;
+var pomoSettings = { work: 25, short: 5, long: 15, longAfter: 4 };
+var pomoMode = 'work', pomoTotalTime = 0, pomoRunning = false, pomoSessionCount = 0;
 
 const pomoTicker = makeTicker(
   function(remaining, total) {
     document.getElementById('pomoTimerInner').textContent = formatTime(remaining);
-    document.getElementById('pomoRingFill').style.strokeDashoffset = POMO_CIRC * (1 - remaining/total);
+    document.getElementById('pomoRingFill').style.strokeDashoffset = POMO_CIRC * (1 - remaining / total);
   },
   function() {
     pomoRunning = false;
-    document.getElementById('pomoTimerInner').className = 'pomo-ring-inner pulsing';
     onPomoComplete();
   }
 );
 
-function savePomoStats(){try{localStorage.setItem(POMO_STATS_KEY,JSON.stringify({stats:pomoStats,sessionCount:pomoSessionCount,date:new Date().toDateString()}));}catch(e){}}
-function loadPomoStats(){
-  try{const s=JSON.parse(localStorage.getItem(POMO_STATS_KEY));
-  if(s&&s.date===new Date().toDateString()){pomoStats=s.stats;pomoSessionCount=s.sessionCount||0;}
-  else{pomoStats={pomos:0,focusMin:0,breakMin:0};pomoSessionCount=0;savePomoStats();}}catch(e){}
-}
-var POMO_META={
-  work:{label:'Focus Time',sub:'Stay focused!',color:'var(--pomo-work)',cls:'work'},
-  short:{label:'Short Break',sub:'Take a breather ☕',color:'var(--pomo-short)',cls:'short'},
-  long:{label:'Long Break',sub:'Great job — rest up 🌿',color:'var(--pomo-long)',cls:'long'},
+var POMO_META = {
+  work:  { label: 'Focus Time',  sub: 'Stay focused!',          color: 'var(--pomo-work)',  cls: 'work'  },
+  short: { label: 'Short Break', sub: 'Take a breather ☕',     color: 'var(--pomo-short)', cls: 'short' },
+  long:  { label: 'Long Break',  sub: 'Great job — rest up 🌿', color: 'var(--pomo-long)',  cls: 'long'  },
 };
-function pomoDuration(m){if(m==='work')return pomoSettings.work*60;if(m==='short')return pomoSettings.short*60;return pomoSettings.long*60;}
-function pomoSetMode(mode,autoStart){
-  pomoTicker.stop();pomoRunning=false;pomoMode=mode;pomoTotalTime=pomoDuration(mode);
-  const m=POMO_META[mode];
-  document.getElementById('pomoSessionLabel').textContent=m.label;document.getElementById('pomoSessionLabel').className='pomo-session-label '+m.cls;
-  document.getElementById('pomoSubLabel').textContent=m.sub;
-  const rf=document.getElementById('pomoRingFill');rf.style.stroke=m.color;rf.style.strokeDashoffset='0';
-  document.getElementById('pomoTimerInner').textContent=formatTime(pomoTotalTime);document.getElementById('pomoTimerInner').className='pomo-ring-inner';
-  const sb=document.getElementById('pomoStartStopBtn');sb.textContent='▶ Start';sb.className='btn btn-pomo-'+m.cls;
-  document.querySelectorAll('.pomo-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
-  updatePomoDots();if(autoStart)startPomoTimer();
+function pomoDuration(m) { if (m==='work') return pomoSettings.work*60; if (m==='short') return pomoSettings.short*60; return pomoSettings.long*60; }
+
+function pomoSetMode(mode, autoStart) {
+  pomoTicker.stop(); pomoRunning = false; pomoMode = mode; pomoTotalTime = pomoDuration(mode);
+  const m = POMO_META[mode];
+  document.getElementById('pomoSessionLabel').textContent = m.label;
+  document.getElementById('pomoSessionLabel').className = 'pomo-session-label ' + m.cls;
+  document.getElementById('pomoSubLabel').textContent = m.sub;
+  const rf = document.getElementById('pomoRingFill'); rf.style.stroke = m.color; rf.style.strokeDashoffset = '0';
+  document.getElementById('pomoTimerInner').textContent = formatTime(pomoTotalTime);
+  document.getElementById('pomoTimerInner').className = 'pomo-ring-inner';
+  const sb = document.getElementById('pomoStartStopBtn'); sb.textContent = '▶ Start'; sb.className = 'btn btn-pomo-' + m.cls;
+  document.querySelectorAll('.pomo-mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+  updatePomoDots();
+  if (autoStart) startPomoTimer();
 }
-function startPomoTimer(){
-  if(pomoTicker.remaining()<=0)return;pomoRunning=true;
-  const m=POMO_META[pomoMode];document.getElementById('pomoStartStopBtn').textContent='⏸ Pause';
-  document.getElementById('pomoTimerInner').className='pomo-ring-inner running '+m.cls;
-  if(pomoTicker.remaining()===pomoTotalTime)pomoTicker.start(pomoTotalTime);else pomoTicker.resume();
+function startPomoTimer() {
+  if (pomoTicker.remaining() <= 0) return; pomoRunning = true;
+  const m = POMO_META[pomoMode];
+  document.getElementById('pomoStartStopBtn').textContent = '⏸ Pause';
+  document.getElementById('pomoTimerInner').className = 'pomo-ring-inner running ' + m.cls;
+  if (pomoTicker.remaining() === pomoTotalTime) pomoTicker.start(pomoTotalTime); else pomoTicker.resume();
 }
-function pausePomoTimer(){pomoTicker.pause();pomoRunning=false;document.getElementById('pomoStartStopBtn').textContent='▶ Start';document.getElementById('pomoTimerInner').className='pomo-ring-inner';}
-function onPomoComplete(){
+function pausePomoTimer() {
+  pomoTicker.pause(); pomoRunning = false;
+  document.getElementById('pomoStartStopBtn').textContent = '▶ Start';
+  document.getElementById('pomoTimerInner').className = 'pomo-ring-inner';
+}
+function onPomoComplete() {
   playAlarm();
-  if(pomoMode==='work'){
-    pomoStats.pomos++;pomoStats.focusMin+=pomoSettings.work;pomoSessionCount++;
-    const nxt=(pomoSessionCount%pomoSettings.longAfter===0)?'long':'short';
-    document.getElementById('pomoSubLabel').textContent=nxt==='long'?'🎉 Long break!':'🎉 Short break!';
-    setTimeout(()=>pomoSetMode(nxt,false),1500);
+  const subj = document.getElementById('pomoSubjectInput').value.trim();
+  if (pomoMode === 'work') {
+    const mins = pomoSettings.work;
+    pomoStatsToday.pomos++; pomoStatsToday.focusMin += mins;
+    pomoStatsAllTime.pomos++; pomoStatsAllTime.focusMin += mins;
+    if (subj) { logPomoSession(subj, mins); addRecentSubject(subj); }
+    touchStreak();
+    notify('🍅 Focus complete!', (subj ? subj + ' — ' : '') + mins + ' minutes done.');
+    pomoSessionCount++;
+    const nxt = (pomoSessionCount % pomoSettings.longAfter === 0) ? 'long' : 'short';
+    document.getElementById('pomoSubLabel').textContent = nxt === 'long' ? '🎉 Long break time!' : '🎉 Take a short break!';
+    setTimeout(() => pomoSetMode(nxt, false), 1500);
   } else {
-    pomoStats.breakMin+=(pomoMode==='short'?pomoSettings.short:pomoSettings.long);
-    document.getElementById('pomoSubLabel').textContent='⏰ Back to work!';
-    setTimeout(()=>pomoSetMode('work',false),1500);
+    const mins = pomoMode === 'short' ? pomoSettings.short : pomoSettings.long;
+    pomoStatsToday.breakMin += mins; pomoStatsAllTime.breakMin += mins;
+    notify('☕ Break over!', 'Time to get back to work.');
+    document.getElementById('pomoSubLabel').textContent = '⏰ Back to work!';
+    setTimeout(() => pomoSetMode('work', false), 1500);
   }
-  updatePomoStats();
+  savePomoStats(); renderPomoStats();
 }
-function updatePomoDots(){
-  const dots=document.getElementById('pomoDots');dots.innerHTML='';
-  for(let i=0;i<pomoSettings.longAfter;i++){const d=document.createElement('div');d.className='pomo-dot';const idx=pomoSessionCount%pomoSettings.longAfter;if(i<idx)d.classList.add('done');else if(i===idx&&pomoMode==='work')d.classList.add('current');dots.appendChild(d);}
+function updatePomoDots() {
+  const dots = document.getElementById('pomoDots'); dots.innerHTML = '';
+  for (let i = 0; i < pomoSettings.longAfter; i++) {
+    const d = document.createElement('div'); d.className = 'pomo-dot';
+    const idx = pomoSessionCount % pomoSettings.longAfter;
+    if (i < idx) d.classList.add('done'); else if (i === idx && pomoMode === 'work') d.classList.add('current');
+    dots.appendChild(d);
+  }
 }
-function updatePomoStats(){document.getElementById('statPomos').textContent=pomoStats.pomos;document.getElementById('statFocusMin').textContent=pomoStats.focusMin;document.getElementById('statBreakMin').textContent=pomoStats.breakMin;savePomoStats();}
 
-document.getElementById('pomoStartStopBtn').addEventListener('click',()=>{if(pomoRunning)pausePomoTimer();else startPomoTimer();});
-document.getElementById('pomoResetBtn').addEventListener('click',()=>{pomoTicker.stop();pomoRunning=false;document.getElementById('pomoTimerInner').textContent=formatTime(pomoTotalTime);document.getElementById('pomoRingFill').style.strokeDashoffset='0';document.getElementById('pomoSubLabel').textContent=POMO_META[pomoMode].sub;document.getElementById('pomoStartStopBtn').textContent='▶ Start';document.getElementById('pomoTimerInner').className='pomo-ring-inner';});
-document.getElementById('pomoSkipBtn').addEventListener('click',()=>{
-  pomoTicker.stop();pomoRunning=false;
-  if(pomoMode==='work'){const nc=pomoSessionCount+1;const nxt=(nc%pomoSettings.longAfter===0)?'long':'short';pomoSessionCount=nc;pomoStats.pomos++;pomoStats.focusMin+=Math.round((pomoTotalTime-pomoTicker.remaining())/60);updatePomoStats();pomoSetMode(nxt,false);}
-  else{pomoStats.breakMin+=Math.round((pomoTotalTime-pomoTicker.remaining())/60);updatePomoStats();pomoSetMode('work',false);}
+// Stats period toggle
+document.getElementById('statsTodayBtn').addEventListener('click', () => {
+  statsPeriod = 'today';
+  document.getElementById('statsTodayBtn').classList.add('active');
+  document.getElementById('statsAllTimeBtn').classList.remove('active');
+  renderPomoStats();
 });
-document.querySelectorAll('.pomo-mode-btn').forEach(b=>b.addEventListener('click',()=>pomoSetMode(b.dataset.mode,false)));
-document.getElementById('pomoApplyBtn').addEventListener('click',()=>{
-  const w=parseInt(document.getElementById('pomoWorkMin').value)||25,s=parseInt(document.getElementById('pomoShortMin').value)||5,l=parseInt(document.getElementById('pomoLongMin').value)||15,la=parseInt(document.getElementById('pomoLongAfter').value)||4;
-  pomoSettings={work:Math.max(1,w),short:Math.max(1,s),long:Math.max(1,l),longAfter:Math.max(2,la)};pomoSetMode(pomoMode,false);
+document.getElementById('statsAllTimeBtn').addEventListener('click', () => {
+  statsPeriod = 'alltime';
+  document.getElementById('statsAllTimeBtn').classList.add('active');
+  document.getElementById('statsTodayBtn').classList.remove('active');
+  renderPomoStats();
 });
 
-// ── Tabs ──
-document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{
-  const t=b.dataset.tab;
-  document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');document.getElementById('tab-'+t).classList.add('active');
+// Pomo buttons
+document.getElementById('pomoStartStopBtn').addEventListener('click', () => { if (pomoRunning) pausePomoTimer(); else startPomoTimer(); });
+document.getElementById('pomoResetBtn').addEventListener('click', () => {
+  pomoTicker.stop(); pomoRunning = false;
+  document.getElementById('pomoTimerInner').textContent = formatTime(pomoTotalTime);
+  document.getElementById('pomoRingFill').style.strokeDashoffset = '0';
+  document.getElementById('pomoSubLabel').textContent = POMO_META[pomoMode].sub;
+  document.getElementById('pomoStartStopBtn').textContent = '▶ Start';
+  document.getElementById('pomoTimerInner').className = 'pomo-ring-inner';
+});
+document.getElementById('pomoSkipBtn').addEventListener('click', () => {
+  pomoTicker.stop(); pomoRunning = false;
+  if (pomoMode === 'work') {
+    const nc = pomoSessionCount + 1, nxt = (nc % pomoSettings.longAfter === 0) ? 'long' : 'short';
+    pomoSessionCount = nc;
+    pomoStatsToday.pomos++; pomoStatsAllTime.pomos++;
+    const partialMins = Math.round((pomoTotalTime - pomoTicker.remaining()) / 60);
+    pomoStatsToday.focusMin += partialMins; pomoStatsAllTime.focusMin += partialMins;
+    savePomoStats(); renderPomoStats(); pomoSetMode(nxt, false);
+  } else {
+    const partialMins = Math.round((pomoTotalTime - pomoTicker.remaining()) / 60);
+    pomoStatsToday.breakMin += partialMins; pomoStatsAllTime.breakMin += partialMins;
+    savePomoStats(); renderPomoStats(); pomoSetMode('work', false);
+  }
+});
+document.querySelectorAll('.pomo-mode-btn').forEach(b => b.addEventListener('click', () => pomoSetMode(b.dataset.mode, false)));
+document.getElementById('pomoApplyBtn').addEventListener('click', () => {
+  const w = parseInt(document.getElementById('pomoWorkMin').value)  || 25,
+        s = parseInt(document.getElementById('pomoShortMin').value) || 5,
+        l = parseInt(document.getElementById('pomoLongMin').value)  || 15,
+        la= parseInt(document.getElementById('pomoLongAfter').value)|| 4;
+  pomoSettings = { work: Math.max(1,w), short: Math.max(1,s), long: Math.max(1,l), longAfter: Math.max(2,la) };
+  pomoSetMode(pomoMode, false);
+});
+
+// ── Trophy modal ─────────────────────────────────────────
+function openTrophyModal() {
+  const u = getActiveUser();
+  document.getElementById('trophyDecks').textContent  = u ? (u.deckCompletions || 0) : 0;
+  document.getElementById('trophyCards').textContent  = countStudied(deck);
+  document.getElementById('trophyStreak').textContent = getStreak().count + ' 🔥';
+
+  // Progress bar
+  const studied  = countStudied(deck);
+  const cleared  = countCleared(deck);
+  const pStudied = (studied / TOTAL * 100).toFixed(1);
+  const pCleared = (cleared / TOTAL * 100).toFixed(1);
+  document.getElementById('dpStudied').style.width = pStudied + '%';
+  document.getElementById('dpCleared').style.width = pCleared + '%';
+  document.getElementById('dpLabel1').textContent = studied + ' studied' + (cleared ? ' · ' + cleared + ' cleared' : '');
+  document.getElementById('dpLabel2').textContent = (TOTAL - studied - cleared) + ' remaining';
+
+  // Deck history
+  const hist = getDeckHistory();
+  const container = document.getElementById('deckHistoryList');
+  renderHistoryList(container, hist, '');
+
+  document.getElementById('trophyModalBackdrop').classList.add('visible');
+}
+document.getElementById('completionsBadge').addEventListener('click', openTrophyModal);
+document.getElementById('trophyCloseBtn').addEventListener('click', () => document.getElementById('trophyModalBackdrop').classList.remove('visible'));
+document.getElementById('trophyModalBackdrop').addEventListener('click', e => { if (e.target === document.getElementById('trophyModalBackdrop')) document.getElementById('trophyModalBackdrop').classList.remove('visible'); });
+
+// ── Tabs ──────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => {
+  const t = b.dataset.tab;
+  document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(x => x.classList.remove('active'));
+  b.classList.add('active'); document.getElementById('tab-' + t).classList.add('active');
 }));
 
-// ── Card buttons ──
+// ── Deck buttons ──────────────────────────────────────────
 document.getElementById('drawBtn').addEventListener('click', drawCard);
 document.getElementById('startStopBtn').addEventListener('click', () => { if (deckTicker.isRunning()) pauseTimer(); else startTimer(); });
 document.getElementById('resetTimerBtn').addEventListener('click', resetTimer);
 document.getElementById('clearCardBtn').addEventListener('click', clearCard);
+document.getElementById('skipBreakBtn').addEventListener('click', () => { endBreakPhase(); stopAlarm(); });
 document.getElementById('resetDeckBtn').addEventListener('click', () => {
   if (!activeUserId) return;
   const u = getActiveUser();
-  if (!confirm('Reset ' + (u?u.name+"'s":'the') + ' full deck? All 54 cards will be restored.')) return;
+  if (!confirm('Reset ' + (u ? u.name + "'s" : 'the') + ' full deck? All 54 cards will be restored.')) return;
   deckTicker.stop(); breakTicker.stop(); isOnBreak = false;
   document.getElementById('breakPhaseBanner').classList.remove('visible');
   document.getElementById('progressBar').classList.remove('break-fill');
@@ -1137,51 +1520,58 @@ document.getElementById('resetDeckBtn').addEventListener('click', () => {
   currentCard = null; deck = freshDeck(); persist(); restoreCardDisplay(); renderDeck();
 });
 
-// ── Modal (add user) ──
-const modalBackdrop=document.getElementById('modalBackdrop'),newUserInput=document.getElementById('newUserInput');
-document.getElementById('addUserBtn').addEventListener('click',()=>{newUserInput.value='';modalBackdrop.classList.add('visible');setTimeout(()=>newUserInput.focus(),100);});
-document.getElementById('modalCancelBtn').addEventListener('click',()=>modalBackdrop.classList.remove('visible'));
-document.getElementById('modalConfirmBtn').addEventListener('click',()=>{const n=newUserInput.value.trim();if(!n){newUserInput.focus();return;}addUser(n);modalBackdrop.classList.remove('visible');});
-newUserInput.addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('modalConfirmBtn').click();if(e.key==='Escape')modalBackdrop.classList.remove('visible');});
-modalBackdrop.addEventListener('click',e=>{if(e.target===modalBackdrop)modalBackdrop.classList.remove('visible');});
+// ── Modals ────────────────────────────────────────────────
+const modalBackdrop = document.getElementById('modalBackdrop');
+const newUserInput  = document.getElementById('newUserInput');
+document.getElementById('addUserBtn').addEventListener('click', () => { newUserInput.value = ''; modalBackdrop.classList.add('visible'); setTimeout(() => newUserInput.focus(), 100); });
+document.getElementById('modalCancelBtn').addEventListener('click', () => modalBackdrop.classList.remove('visible'));
+document.getElementById('modalConfirmBtn').addEventListener('click', () => {
+  const n = newUserInput.value.trim(); if (!n) { newUserInput.focus(); return; }
+  addUser(n); modalBackdrop.classList.remove('visible');
+});
+newUserInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('modalConfirmBtn').click();
+  if (e.key === 'Escape') modalBackdrop.classList.remove('visible');
+});
+modalBackdrop.addEventListener('click', e => { if (e.target === modalBackdrop) modalBackdrop.classList.remove('visible'); });
 
-// ── Help modal ──
 const helpModalBackdrop = document.getElementById('helpModalBackdrop');
 document.getElementById('helpBtn').addEventListener('click', () => helpModalBackdrop.classList.add('visible'));
 document.getElementById('helpCloseBtn').addEventListener('click', () => helpModalBackdrop.classList.remove('visible'));
 helpModalBackdrop.addEventListener('click', e => { if (e.target === helpModalBackdrop) helpModalBackdrop.classList.remove('visible'); });
 
-// ── Theme ──
-const themeButtons = document.querySelectorAll('.theme-btn');
+// ── Theme ──────────────────────────────────────────────────
 function applyTheme(theme) {
   document.body.setAttribute('data-theme', theme);
-  themeButtons.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
-  try { localStorage.setItem(THEME_KEY, theme); } catch(e) {}
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+  ls_set(K_THEME, theme);
 }
-themeButtons.forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.theme)));
-(function initTheme(){let s=null;try{s=localStorage.getItem(THEME_KEY);}catch(e){}applyTheme(s||'warm');})();
+document.querySelectorAll('.theme-btn').forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.theme)));
 
-// ── Page Visibility: catch up when tab becomes visible again ──
+// ── Visibility catch-up ────────────────────────────────────
 document.addEventListener('visibilitychange', () => {
-  // Tickers use Date.now() internally so they auto-catch-up; we just need to
-  // re-render the current display values when the user comes back.
-  if (document.visibilityState === 'visible') {
-    if (isOnBreak && breakTicker.isRunning()) {
-      const r = breakTicker.remaining();
-      document.getElementById('timerDisplay').textContent = formatTime(r);
-      document.getElementById('progressBar').style.width = (r / (breakMinutesForCard(currentCard ? currentCard.rank : 'A') * 60) * 100) + '%';
-    } else if (!isOnBreak && deckTicker.isRunning() && currentCard) {
-      const r = deckTicker.remaining(); const total = studyMinutes(currentCard.rank) * 60;
-      document.getElementById('timerDisplay').textContent = formatTime(r);
-      document.getElementById('progressBar').style.width = (r / total * 100) + '%';
-    }
+  if (document.visibilityState !== 'visible') return;
+  if (isOnBreak && breakTicker.isRunning()) {
+    const r = breakTicker.remaining();
+    document.getElementById('timerDisplay').textContent = formatTime(r);
+    if (currentCard) document.getElementById('progressBar').style.width = (r / (breakMinutesForCard(currentCard.rank) * 60) * 100) + '%';
+  } else if (!isOnBreak && deckTicker.isRunning() && currentCard) {
+    const r = deckTicker.remaining(), total = studyMinutes(currentCard.rank) * 60;
+    document.getElementById('timerDisplay').textContent = formatTime(r);
+    document.getElementById('progressBar').style.width = (r / total * 100) + '%';
   }
 });
 
-// ── Bootstrap ──
+// ── Bootstrap ─────────────────────────────────────────────
 (function init() {
-  const savedMult = parseInt(localStorage.getItem(MULT_KEY));
-  if (!isNaN(savedMult) && savedMult >= 1) multiplier = savedMult;
+  // Theme
+  applyTheme(ls_get(K_THEME) || 'warm');
+
+  // Multiplier
+  const savedMult = ls_get(K_MULT);
+  if (savedMult && savedMult >= 1) multiplier = savedMult;
+
+  // Break settings
   loadBreakSettings();
   document.getElementById('breakToggle').checked = breakEnabled;
   if (breakEnabled) document.getElementById('breakOptions').classList.add('visible');
@@ -1191,17 +1581,24 @@ document.addEventListener('visibilitychange', () => {
   setMultiplier(multiplier);
   updateBreakDesc();
 
+  // Users
   const meta = getStoredMeta();
-  if (meta.length === 0) {
+  if (!meta.length) {
     const u = createUser('Me'); users = [u];
-    saveStoredMeta([{id:u.id,name:u.name}]); saveStoredUser(u.id, u); switchUser(u.id);
+    saveStoredMeta([{ id: u.id, name: u.name }]); saveStoredUser(u.id, u); switchUser(u.id);
   } else {
-    users = meta.map(m => { const d = getStoredUser(m.id); return d || {id:m.id,name:m.name,deck:freshDeck(),currentCard:null,deckCompletions:0}; });
+    users = meta.map(m => { const d = getStoredUser(m.id); return d || { id: m.id, name: m.name, deck: freshDeck(), currentCard: null, deckCompletions: 0 }; });
     const last = getActiveId();
-    const target = users.find(u => u.id === last) ? last : users[0].id;
-    switchUser(target);
+    switchUser(users.find(u => u.id === last) ? last : users[0].id);
   }
-  pomoSetMode('work', false); loadPomoStats(); updatePomoStats();
+
+  // Streak & subjects
+  renderStreakBadge();
+  renderSubjectChips();
+
+  // Pomo
+  pomoSetMode('work', false);
+  loadPomoStats(); renderPomoStats(); renderPomoHistory();
 })();
 </script>
 
