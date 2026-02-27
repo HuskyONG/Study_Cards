@@ -464,16 +464,14 @@
 <div class="tab-panel" id="tab-pomo">
   <div class="pomo-container">
 
-<!-- SUBJECT TAG — POMO -->
-<div class="subject-panel">
-  <div class="subject-panel-header">📚 Subject / Topic</div>
-  <div class="pomo-subject-bar">
-    <input class="pomo-subject-input" id="pomoSubjectInput" placeholder="e.g. Biology, History…" maxlength="40">
-  </div>
-  <div class="pomo-subject-chips" id="pomoSubjectChips"></div>
-</div>
-
-
+    <!-- SUBJECT TAG — POMO -->
+    <div class="subject-panel">
+      <div class="subject-panel-header">📚 Subject / Topic</div>
+      <div class="subject-row">
+        <input class="subject-input" id="pomoSubjectInput" placeholder="e.g. Biology, History…" maxlength="40">
+      </div>
+      <div class="subject-chips" id="pomoSubjectChips"></div>
+    </div>
 
     <div class="pomo-mode-tabs">
       <button class="pomo-mode-btn work active" data-mode="work">🍅 Work</button>
@@ -629,19 +627,19 @@
       <hr class="help-divider">
 
       <div class="help-section">
-        <h3>📚 Subject Tagging</h3>
-        <p>Type a subject before you start studying such as Chemistry, Calculus, whatever you're working on. When your timer completes, that session is automatically saved to your history with the subject and duration. Your six most recent subjects appear as quick-tap chips so you don't have to retype them. You can see your full deck history in the 🏆 trophy panel, and your Pomodoro history in the stats section of the Pomodoro tab.</p>
+        <h3>📚 Subject Tagging <span class="help-badge orange">New</span></h3>
+        <p>Type a subject before you start studying — Chemistry, Calculus, whatever you're working on. When your timer completes, that session is automatically saved to your history with the subject and duration. Your six most recent subjects appear as quick-tap chips so you don't have to retype them. You can see your full deck history in the 🏆 trophy panel, and your Pomodoro history in the stats section of the Pomodoro tab.</p>
       </div>
       <hr class="help-divider">
 
       <div class="help-section">
-        <h3>🔥 Study Streak</h3>
-        <p>Complete at least one card per day and your streak grows. Miss a day and it resets. Your streak lives under the trophy badge in the top-left corner.</p>
+        <h3>🔥 Study Streak <span class="help-badge green">New</span></h3>
+        <p>Complete at least one card per day (timer runs to zero naturally — clearing doesn't count) and your streak grows. Miss a day and it resets. Your streak lives under the trophy badge in the top-left corner.</p>
       </div>
       <hr class="help-divider">
 
       <div class="help-section">
-        <h3>🏆 Progress Panel</h3>
+        <h3>🏆 Progress Panel <span class="help-badge green">New</span></h3>
         <p>Click the trophy badge to open a detailed view: deck completions, total cards studied, your streak, a live colour-coded progress bar for the current deck, and your full session history.</p>
       </div>
       <hr class="help-divider">
@@ -649,6 +647,12 @@
       <div class="help-section">
         <h3>☕ Post-Card Breaks</h3>
         <p>Toggle on an automatic break after each card. Default = ½ card value × ½ multiplier (proportional to how long you just studied). Or set a fixed custom duration. The break timer is blue so you always know which phase you're in.</p>
+      </div>
+      <hr class="help-divider">
+
+      <div class="help-section">
+        <h3>🔔 Notifications <span class="help-badge blue">New</span></h3>
+        <p>The app asks for notification permission on first load. When a timer finishes — even if you've switched tabs or minimised the window — you'll get a desktop notification so you never miss it.</p>
       </div>
       <hr class="help-divider">
 
@@ -1368,11 +1372,17 @@ function pomoSetMode(mode, autoStart) {
   if (autoStart) startPomoTimer();
 }
 function startPomoTimer() {
-  if (pomoTicker.remaining() <= 0) return; pomoRunning = true;
+  pomoRunning = true;
   const m = POMO_META[pomoMode];
   document.getElementById('pomoStartStopBtn').textContent = '⏸ Pause';
   document.getElementById('pomoTimerInner').className = 'pomo-ring-inner running ' + m.cls;
-  if (pomoTicker.remaining() === pomoTotalTime) pomoTicker.start(pomoTotalTime); else pomoTicker.resume();
+  // If the ticker has never been started (pausedRemaining is null) or was stopped,
+  // always do a fresh start. Only resume if it has a paused mid-session value.
+  if (pomoTicker.remaining() > 0) {
+    pomoTicker.resume();
+  } else {
+    pomoTicker.start(pomoTotalTime);
+  }
 }
 function pausePomoTimer() {
   pomoTicker.pause(); pomoRunning = false;
@@ -1438,17 +1448,13 @@ document.getElementById('pomoResetBtn').addEventListener('click', () => {
 });
 document.getElementById('pomoSkipBtn').addEventListener('click', () => {
   pomoTicker.stop(); pomoRunning = false;
+  // Skip = abandon. No time is credited — the session wasn't completed.
   if (pomoMode === 'work') {
     const nc = pomoSessionCount + 1, nxt = (nc % pomoSettings.longAfter === 0) ? 'long' : 'short';
     pomoSessionCount = nc;
-    pomoStatsToday.pomos++; pomoStatsAllTime.pomos++;
-    const partialMins = Math.round((pomoTotalTime - pomoTicker.remaining()) / 60);
-    pomoStatsToday.focusMin += partialMins; pomoStatsAllTime.focusMin += partialMins;
-    savePomoStats(); renderPomoStats(); pomoSetMode(nxt, false);
+    pomoSetMode(nxt, false);
   } else {
-    const partialMins = Math.round((pomoTotalTime - pomoTicker.remaining()) / 60);
-    pomoStatsToday.breakMin += partialMins; pomoStatsAllTime.breakMin += partialMins;
-    savePomoStats(); renderPomoStats(); pomoSetMode('work', false);
+    pomoSetMode('work', false);
   }
 });
 document.querySelectorAll('.pomo-mode-btn').forEach(b => b.addEventListener('click', () => pomoSetMode(b.dataset.mode, false)));
