@@ -788,14 +788,30 @@ function countCleared(d) { return Object.values(d).filter(v => v === 'cleared').
 function isDeckComplete(d) { return countStudied(d) === TOTAL; }
 
 // ── Streak ──────────────────────────────────────────────
-function getStreak() { return ls_get(K_STREAK) || { count: 0, lastDate: '' }; }
+function getStreak() { return ls_get(K_STREAK) || { count: 0, lastDate: '', lastTs: 0 }; }
+function checkStreakExpiry() {
+  // Called on page load — resets streak if more than 24h have passed since last activity.
+  const s = getStreak();
+  if (!s.lastTs && !s.lastDate) return; // never set, nothing to expire
+  const today = new Date().toDateString();
+  if (s.lastDate !== today && (Date.now() - (s.lastTs || 0)) > 86400000) {
+    s.count = 0;
+    ls_set(K_STREAK, s);
+  }
+}
 function touchStreak() {
   const today = new Date().toDateString();
   const s = getStreak();
-  if (s.lastDate === today) return;       // already credited today
+  if (s.lastDate === today) {
+    // Already credited today — just refresh the timestamp so 24h window resets
+    s.lastTs = Date.now();
+    ls_set(K_STREAK, s);
+    return;
+  }
   const yesterday = new Date(Date.now() - 86400000).toDateString();
   s.count = (s.lastDate === yesterday) ? s.count + 1 : 1;
   s.lastDate = today;
+  s.lastTs = Date.now();
   ls_set(K_STREAK, s);
   renderStreakBadge();
 }
@@ -1593,6 +1609,7 @@ document.addEventListener('visibilitychange', () => {
   }
 
   // Streak & subjects
+  checkStreakExpiry(); // reset if >24h since last activity
   renderStreakBadge();
   renderSubjectChips();
 
